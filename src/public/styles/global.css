@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
 :root {
     --lightgrey : #3e3e42;
-
+    --darkergrey : #2d2d30;
 
     --darkestgrey : #252526;
 }
@@ -8,10 +10,36 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
 }
 
 body {
+    background-color: var(--darkergrey);
+}
+
+.main-container {
+    margin-top: 5px;
+    width: 100%;
+    height: 95%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.main-container textarea {
+    color: white;
     background-color: var(--lightgrey);
+    width: 90%;
+    height: 100%;
+    border: none;
+    outline: none;
+    resize: none;
+
+    display: none;
 }
 
 .tool-bar {
@@ -24,6 +52,7 @@ body {
 }
 
 .tool-bar button {
+    color: lightgray;
     background-color: var(--darkestgrey);
     border: 1px;
     border-color: var(--lightgrey);
@@ -33,8 +62,56 @@ body {
     height: 100%;
     padding-left: 10px;
     padding-right: 10px;
+
+    cursor: pointer;
 }
 
 .tool-bar button:hover {
+    background-color: var(--darkergrey);
+}
 
+.new-note-creator {    
+    color: lightgray;
+    background-color: var(--lightgrey);
+
+    width: 40%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 5px;
+    padding: 10px;
+}
+
+.new-note-creator input[type="text"] {
+    color: white;
+    background-color: var(--darkergrey);
+    border: solid 1px var(--lightgrey);
+    width: 90%;
+    height: 30px;
+    font-size: large;
+}
+
+.new-note-creator button {
+    color: white;
+    background-color: var(--darkestgrey);
+    border: solid 1px var(--lightgrey);
+    width: 90%;
+    height: 30px;
+    font-size: large;
+    cursor: pointer;
+}
+
+.new-note-creator button:hover {
+    color: white;
+    background-color: var(--darkergrey);
+    border: solid 1px var(--lightgrey);
+    width: 90%;
+    height: 30px;
+    font-size: large;
+}
+
+.new-note-creator h5{
+    color: red;
 }

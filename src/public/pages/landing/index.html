@@ -5,13 +5,14 @@
     <title>NOTELY - welcome</title>
 
     <link rel="stylesheet" href="/styles/global.css">
-    <link rel="stylesheet" href="/styes/landing.css">
 </head>
 <body>
     <div class="tool-bar">
-        <button>new file</button>
-        <button>load file</button>
-        <button>save file</button>
+        <button onclick="newNote()">new note</button>
+        <button>load note</button>
+        <button>save note</button>
+        <button>tag note</button>
+        <button>search note</button>
     </div>
 
     <div class="side-bar">
@@ -19,7 +20,15 @@
     </div>
 
     <div class="main-container">
-        
+        <textarea name="notepad" id="notepad" cols="30" rows="10" autofocus disabled>Welcome to Notely, to begin please create a new note or load an existing note!</textarea> <!--The notepad-->
+
+        <div class="new-note-creator" id="newNoteCreator"> <!--Modal popup for creating new notes-->
+            <h3>new note creator</h3>
+            <input type="text" name="noteName" id="noteNameInput" placeholder="Please enter a name for this note... (max 60 chars) (min 3 chars)">
+            <button onclick="createNewNote()">create note</button>
+            <h5 id="newNoteCreatorErrorOutput"></h5>
+        </div>
     </div>
 </body>
+<script src="/scripts/main.js"></script>
 </html>
