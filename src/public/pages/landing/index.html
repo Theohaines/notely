@@ -10,7 +10,7 @@
     <div class="tool-bar">
         <button onclick="newNote()">new note</button>
         <button>load note</button>
-        <button>save note</button>
+        <button onclick="saveNote()">save note</button>
         <button>tag note</button>
         <button>search note</button>
     </div>
@@ -26,7 +26,6 @@
             <h3>new note creator</h3>
             <input type="text" name="noteName" id="noteNameInput" placeholder="Please enter a name for this note... (max 60 chars) (min 3 chars)">
             <button onclick="createNewNote()">create note</button>
-            <h5 id="newNoteCreatorErrorOutput"></h5>
         </div>
     </div>
 </body>

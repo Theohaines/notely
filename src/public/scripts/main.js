@@ -1,6 +1,9 @@
 const notepad = document.getElementById('notepad');
 const newNoteCreator = document.getElementById("newNoteCreator");
 
+let noteLoaded = false;
+let loadedNoteName = "";
+
 function newNote(){
     notepad.style.display = "none";
     newNoteCreator.style.display = "flex";
@@ -8,13 +11,10 @@ function newNote(){
 
 function createNewNote(){
     var noteName = document.getElementById("noteNameInput").value;
-    var errorOutput = document.getElementById("newNoteCreatorErrorOutput");
 
     if (!validateNoteName(noteName)){
-        errorOutput.textContent = "Note name too long / short";
+        alert("E001: Note name too long / short");
         return;
-    } else {
-        errorOutput.textContent = "";
     }
 
     fetch('/createnote', {
@@ -24,19 +24,21 @@ function createNewNote(){
     })
     .then(response => response.json())
     .then(data => {
-        if(data.message = "note created"){
+        if(data.message = "I001: Note created!"){
             notepad.style.display = "flex";
             newNoteCreator.style.display = "none";
 
             notepad.value = "";
             notepad.disabled = false;
+            noteLoaded = true;
+            loadedNoteName = noteName;
+            alert(data.message);
         } else {
-            errorOutput.textContent = data.message;
+            alert(data.message);
             return;
         }
     })
     .catch(error => console.error(error));
-
 }
 
 function validateNoteName(name){
@@ -47,5 +49,27 @@ function validateNoteName(name){
     } else {
         return true;
     }
+}
+
+function saveNote(){
+    if (!noteLoaded){
+        alert("W001: No note is loaded");
+    }
+
+    fetch('/savenote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ noteName: loadedNoteName, "noteText": notepad.value})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.message = "I002: Note saved!"){
+            alert(data.message);
+        } else {
+            alert(data.message);
+            return;
+        }
+    })
+    .catch(error => console.error(error));
 }
 

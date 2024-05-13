@@ -38,8 +38,6 @@ body {
     border: none;
     outline: none;
     resize: none;
-
-    display: none;
 }
 
 .tool-bar {
@@ -76,7 +74,7 @@ body {
 
     width: 40%;
 
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -110,8 +108,4 @@ body {
     width: 90%;
     height: 30px;
     font-size: large;
-}
-
-.new-note-creator h5{
-    color: red;
 }

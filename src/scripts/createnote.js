@@ -7,18 +7,18 @@ async function createNote(noteName){
     var validated = await checkNoteNotExist(noteName);
 
     if (!validated){
-        return "Note with same name already exists."
+        return "E002: Note with same name already exists."
     }
 
     validated = await validateNoteName(noteName + ".txt");
 
     if (!validated){
-        return "name is too long, too short or contains illegal characters."
+        return "E003: name is too long, too short or contains illegal characters."
     }
 
     createNoteUsingFS(noteName);
 
-    return "note created!"
+    return "I001: Note created!"
 }
 
 async function checkNoteNotExist(noteName){ //Checks if a note with the same name already exists
@@ -74,7 +74,7 @@ async function createNoteUsingFS(noteName){
         if(err) {
             return console.log(err);
         }
-        console.log("The file was saved!");
+        console.log("The file was created!");
     });
 }
 

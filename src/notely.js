@@ -3,6 +3,7 @@ const path = require('path');
 const dotenv = require('dotenv').config();
 
 const createnote = require('./scripts/createnote.js');
+const savenote = require('./scripts/savenote.js');
 
 const app = express();
 app.use(express.json());
@@ -27,4 +28,12 @@ app.use('/createnote', async function (req, res){
     var message = await createnote.createNote(req.body.noteName);
 
     res.json({"message" : message});
-})
+});
+
+app.use('/savenote', async function (req, res){
+    console.log(req.body)
+
+    var message = await savenote.saveNote(req.body.noteName, req.body.noteText);
+
+    res.json({"message" : message});
+});
