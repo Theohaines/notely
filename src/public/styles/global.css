@@ -1,0 +1,40 @@
+:root {
+    --lightgrey : #3e3e42;
+
+
+    --darkestgrey : #252526;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--lightgrey);
+}
+
+.tool-bar {
+    background-color: var(--darkestgrey);
+    width: 100%;
+    height: 20px;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.tool-bar button {
+    background-color: var(--darkestgrey);
+    border: 1px;
+    border-color: var(--lightgrey);
+    border-style: solid;
+    border-bottom: none;
+    border-top: none;
+    height: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.tool-bar button:hover {
+
+}
