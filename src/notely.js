@@ -3,6 +3,7 @@ const path = require('path');
 const dotenv = require('dotenv').config();
 
 const createnote = require('./scripts/createnote.js');
+const savenote = require('./scripts/savenote.js');
 
 const app = express();
 app.use(express.json());
@@ -24,7 +25,13 @@ app.listen(process.env.PORT, () => {
 });
 
 app.use('/createnote', async function (req, res){
-    var message = await createnote.createNote(req.body.noteName);
+    var message = await createnote.createNote(req.body.name);
+
+    res.json({"message" : message});
+});
+
+app.use('/savenote', async function (req, res){
+    var message = await savenote.saveNote(req.body.name);
 
     res.json({"message" : message});
 });

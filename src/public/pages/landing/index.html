@@ -8,10 +8,11 @@
 </head>
 <body>
     <div class="tool-bar">
-        <button onclick="newNote()">new note</button>
-        <button onclick="listNotes()">load note</button>
-        <button onclick="saveNote()">save note</button> 
-        <button onclick="toggleNoteView()">note view</button>
+        <button>Notely</button>
+        <button>Home</button>
+        <button>Create</button>
+        <button>View</button>
+        <button onclick="saveNote()">Save</button>
     </div>
 
     <div class="side-bar">
@@ -24,7 +25,7 @@
         <div class="welcome-splash" id="welcomeSplash">
             <h1>Welcome to Notely</h1>
             <div class="welcome-splash-menu-options">
-                <div class="welcome-splash-button">
+                <div class="welcome-splash-button" onclick="createNewNoteGUI()">
                     <h1>create new note</h1>
                     <img src="/media/icons/notestackadd.svg" alt="">
                 </div>
@@ -33,6 +34,12 @@
                     <img src="/media/icons/notestack.svg" alt="">
                 </div>
             </div>
+        </div>
+
+        <div class="create-note-menu" id="createNoteMenu">
+            <h1 style="color: white;">create new note</h1>
+            <input class="text-input" id="newNoteNameInput" type="text" placeholder="enter a title for this note... (max 60, min 3)">
+            <button class="menu-button" onclick="createNewNote()">create note</button>
         </div>
 
         <div class="note-view" id="noteView" style="display: none;">
