@@ -11,6 +11,7 @@
         <button onclick="newNote()">new note</button>
         <button onclick="listNotes()">load note</button>
         <button onclick="saveNote()">save note</button> 
+        <button onclick="toggleNoteView()">note view</button>
     </div>
 
     <div class="side-bar">
@@ -28,6 +29,15 @@
 
         <div class="load-note-menu" id="loadNoteMenu">
             <h3>load note</h3>
+        </div>
+
+        <div class="note-view" id="noteView" style="display: none;">
+            <div class="tool-bar">
+                <input id="searchByNameInput" type="text" placeholder="search by name...">
+                <input id="searchByTagInput" type="text" placeholder="search by tag...">
+            </div>
+            <div class="note-view-container" id="noteViewContainer">
+            </div>
         </div>
     </div>
 </body>

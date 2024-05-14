@@ -6,6 +6,7 @@ const createnote = require('./scripts/createnote.js');
 const savenote = require('./scripts/savenote.js');
 const listnotes = require('./scripts/listnotes.js');
 const loadnote = require('./scripts/loadnote.js');
+const loadnoteview = require('./scripts/loadnoteview.js');
 
 const app = express();
 app.use(express.json());
@@ -54,4 +55,10 @@ app.use('/loadnote', async function (req, res){
     }
 
     res.json({"message" : "ok", "noteContents" : responsejson.noteContents});
+})
+
+app.use('/loadnoteview', async function (req, res){
+    var notes = await loadnoteview.loadNoteView(req.body.name, req.body.tag);
+
+    res.json(notes);
 })

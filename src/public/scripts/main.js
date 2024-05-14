@@ -1,6 +1,8 @@
 const notepad = document.getElementById('notepad');
 const newNoteCreator = document.getElementById("newNoteCreator");
 const loadNoteMenu = document.getElementById("loadNoteMenu");
+const noteView = document.getElementById("noteView");
+const noteViewContainer = document.getElementById("noteViewContainer");
 
 let noteLoaded = false;
 let loadedNoteName = "";
@@ -134,5 +136,54 @@ function loadDataIntoNotepad(noteContents){
     notepad.style.display = "flex";
     newNoteCreator.style.display = "none";
     loadNoteMenu.style.display = "none";
+    toggleNoteView();   
 }
 
+function toggleNoteView(){
+    if (noteView.style.display == "none"){
+        noteView.style.display = "flex";
+        notepad.style.display = "none";
+    } else {
+        noteView.style.display = "none";
+        notepad.style.display = "flex";
+        return;
+    }
+
+    loadNoteView();
+}
+
+function loadNoteView(){
+    var searchByNameInput = document.getElementById("searchByNameInput");
+    var searchByTagInput = document.getElementById("searchByTagInput");
+
+    fetch('/loadnoteview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ "name" : searchByNameInput.value ,"tag" : searchByTagInput.value })
+    })
+    .then(response => response.json())
+    .then(data => {
+        loadNoteViewGUI(data);
+    })
+    .catch(error => console.error(error));
+}
+
+function loadNoteViewGUI(notes){
+
+    noteViewContainer.innerHTML = "";
+
+    for (var note of notes){
+        var noteViewNote = document.createElement("div");
+        noteViewNote.className = "note-view-note";
+        noteViewNote.setAttribute("onclick", "loadNote('"+note[0]+"')");
+        noteViewContainer.appendChild(noteViewNote)
+
+        var noteViewNoteName = document.createElement("h3");
+        noteViewNoteName.textContent = note[0];
+        noteViewNote.appendChild(noteViewNoteName);
+
+        var noteViewNoteSnippet = document.createElement("p");
+        noteViewNoteSnippet.textContent = note[1];
+        noteViewNote.appendChild(noteViewNoteSnippet);
+    }
+}
