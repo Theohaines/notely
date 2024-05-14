@@ -39,8 +39,10 @@ body {
 }
 
 .main-container {
+    background-color: var(--lightgrey);
+    margin: auto;
     margin-top: 5px;
-    width: 100%;
+    width: 90%;
     height: 95%;
 
     display: flex;
@@ -88,41 +90,50 @@ body {
     background-color: var(--darkergrey);
 }
 
-.new-note-creator {    
-    color: lightgray;
-    background-color: var(--lightgrey);
-
-    width: 40%;
-
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    row-gap: 5px;
-    padding: 10px;
-}
-
-.new-note-creator input[type="text"] {
+.welcome-splash {
     color: white;
-    background-color: var(--darkergrey);
-    border: solid 1px var(--lightgrey);
-    width: 90%;
-    height: 30px;
-    font-size: large;
-}
-
-.load-note-menu {
-    color: lightgray;
-    background-color: var(--lightgrey);
-
-    width: 40%;
-
-    display: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    row-gap: 5px;
-    padding: 10px;
+    row-gap: 10px;
+}
+
+.welcome-splash-menu-options {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    column-gap: 25px;
+}
+
+.welcome-splash-button {
+    color: white;
+    background-color: var(--darkestgrey);
+    border: 2px solid var(--accentblue);
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    height: 230px;
+    width: 15%;
+}
+
+.welcome-splash-button:hover {
+    background-color: var(--darkergrey);
+}
+
+.welcome-splash-button img{
+    width: 40%;
+    object-fit: contain;
 }
 
 .note-view {
