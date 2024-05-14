@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
+    --accentblue : #007acc;
     --lightgrey : #3e3e42;
     --darkergrey : #2d2d30;
 
