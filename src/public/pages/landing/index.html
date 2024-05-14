@@ -9,10 +9,8 @@
 <body>
     <div class="tool-bar">
         <button onclick="newNote()">new note</button>
-        <button>load note</button>
-        <button onclick="saveNote()">save note</button>
-        <button>tag note</button>
-        <button>search note</button>
+        <button onclick="listNotes()">load note</button>
+        <button onclick="saveNote()">save note</button> 
     </div>
 
     <div class="side-bar">
@@ -25,7 +23,11 @@
         <div class="new-note-creator" id="newNoteCreator"> <!--Modal popup for creating new notes-->
             <h3>new note creator</h3>
             <input type="text" name="noteName" id="noteNameInput" placeholder="Please enter a name for this note... (max 60 chars) (min 3 chars)">
-            <button onclick="createNewNote()">create note</button>
+            <button class="menu-button" onclick="createNewNote()">create note</button>
+        </div>
+
+        <div class="load-note-menu" id="loadNoteMenu">
+            <h3>load note</h3>
         </div>
     </div>
 </body>

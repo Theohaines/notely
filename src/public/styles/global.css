@@ -18,6 +18,25 @@ body {
     background-color: var(--darkergrey);
 }
 
+.menu-button{
+    color: white;
+    background-color: var(--darkestgrey);
+    border: solid 1px var(--lightgrey);
+    width: 90%;
+    height: 30px;
+    font-size: large;
+    cursor: pointer;
+}
+
+.menu-button:hover {
+    color: white;
+    background-color: var(--darkergrey);
+    border: solid 1px var(--lightgrey);
+    width: 90%;
+    height: 30px;
+    font-size: large;
+}
+
 .main-container {
     margin-top: 5px;
     width: 100%;
@@ -91,21 +110,16 @@ body {
     font-size: large;
 }
 
-.new-note-creator button {
-    color: white;
-    background-color: var(--darkestgrey);
-    border: solid 1px var(--lightgrey);
-    width: 90%;
-    height: 30px;
-    font-size: large;
-    cursor: pointer;
-}
+.load-note-menu {
+    color: lightgray;
+    background-color: var(--lightgrey);
 
-.new-note-creator button:hover {
-    color: white;
-    background-color: var(--darkergrey);
-    border: solid 1px var(--lightgrey);
-    width: 90%;
-    height: 30px;
-    font-size: large;
+    width: 40%;
+
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 5px;
+    padding: 10px;
 }

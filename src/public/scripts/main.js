@@ -1,11 +1,13 @@
 const notepad = document.getElementById('notepad');
 const newNoteCreator = document.getElementById("newNoteCreator");
+const loadNoteMenu = document.getElementById("loadNoteMenu");
 
 let noteLoaded = false;
 let loadedNoteName = "";
 
 function newNote(){
     notepad.style.display = "none";
+    loadNoteMenu.style.display = "none";
     newNoteCreator.style.display = "flex";
 }
 
@@ -54,6 +56,7 @@ function validateNoteName(name){
 function saveNote(){
     if (!noteLoaded){
         alert("W001: No note is loaded");
+        return;
     }
 
     fetch('/savenote', {
@@ -71,5 +74,65 @@ function saveNote(){
         }
     })
     .catch(error => console.error(error));
+}
+
+function listNotes(){
+    fetch('/listnotes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+    })
+    .then(response => response.json())
+    .then(data => loadNotesGUI(data))
+    .catch(error => console.error(error));
+}
+
+function loadNotesGUI(notes){
+    notepad.style.display = "none";
+    newNoteCreator.style.display = "none";
+    loadNoteMenu.style.display = "flex";
+
+    loadNoteMenu.innerHTML = "";
+
+    var headerText = document.createElement("h3");
+    headerText.textContent = "load note";
+    loadNoteMenu.appendChild(headerText);
+
+    for (var note of notes){
+        var noteButton = document.createElement("button");
+        noteButton.textContent = note;
+        noteButton.className = "menu-button";
+        noteButton.setAttribute("onclick", "loadNote('"+note+"')");
+        loadNoteMenu.appendChild(noteButton);
+    }
+}
+
+function loadNote(noteName){
+    fetch('/loadnote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ noteName: noteName})
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+        if (data.message == "E004: No note exists."){
+            alert(data.message);
+        } else {
+            noteLoaded = true;
+            loadedNoteName = noteName.replace(".txt", "");
+            loadDataIntoNotepad(data);
+        }
+    })
+    .catch(error => console.error(error));
+}
+
+function loadDataIntoNotepad(noteContents){
+    notepad.value = noteContents.noteContents;
+
+    notepad.disabled = false;
+
+    notepad.style.display = "flex";
+    newNoteCreator.style.display = "none";
+    loadNoteMenu.style.display = "none";
 }
 
