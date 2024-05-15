@@ -7,6 +7,8 @@ const noteView = document.getElementById('noteView');
 var currentlyLoadedNote = "";
 
 function resetScreen(){
+    notepad.value = "";
+
     notepad.style.display = "none";
     welcomeSplash.style.display = "none";
     createNoteMenu.style.display = "none";
@@ -103,6 +105,31 @@ function populateNoteView(data){
         noteViewNoteSnippet.textContent = note[1];
         noteViewNote.appendChild(noteViewNoteSnippet);
     }
+}
+
+function loadNote(name){
+    fetch('/loadnote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ "name" : name})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.note == "no note with the specified name exists." || data.note == "note could not be loaded."){
+            alert(data.note);
+        } else {
+            resetScreen();
+
+            data = JSON.parse(data)
+
+            notepad.value = data.body;
+            notepad.style.display = "flex";
+            noteOnlyToolbar.style.display = "flex";
+
+            currentlyLoadedNote = name;
+        }
+    })
+    .catch(error => console.error(error));
 }
 
 start();

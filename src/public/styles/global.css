@@ -196,7 +196,6 @@ body {
 
 .note-view-container {
     width: 100%;
-    padding: 5px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -204,6 +203,10 @@ body {
     align-items: baseline;
     row-gap: 25px;
     overflow-y: scroll;
+}
+
+.note-view-container{
+    scrollbar-color: var(--darkestgrey);
 }
 
 .note-view-note {

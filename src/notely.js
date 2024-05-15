@@ -5,6 +5,7 @@ const dotenv = require('dotenv').config();
 const createnote = require('./scripts/createnote.js');
 const savenote = require('./scripts/savenote.js');
 const listnotes = require('./scripts/listnotes.js');
+const loadnote = require('./scripts/loadnote.js');
 
 const app = express();
 app.use(express.json());
@@ -43,8 +44,9 @@ app.use('/listnotes', async function (req, res){
     res.json({notes});
 });
 
-app.use('/listnote', async function (req, res){
-    var note = await listnotes.listNotes(req.body.name, req.body.tag);
+app.use('/loadnote', async function (req, res){
+    var note = await loadnote.loadNote(req.body.name);
 
-    res.json({notes});
+    res.json(note);
 });
+
