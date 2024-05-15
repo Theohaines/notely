@@ -1,4 +1,3 @@
-const { json } = require('express');
 const fs = require('fs');
 const path = require('path');
 
@@ -28,7 +27,7 @@ async function validatedNoteExists(name){
             } else {
                 resolve(true);
             }
-          })
+        })
     });
 
     if (!validated){

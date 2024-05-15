@@ -1,6 +1,8 @@
 const notepad = document.getElementById('notepad');
 const welcomeSplash = document.getElementById('welcomeSplash');
 const createNoteMenu = document.getElementById('createNoteMenu');
+const noteOnlyToolbar = document.getElementById('noteOnlyToolbar');
+const noteView = document.getElementById('noteView');
 
 var currentlyLoadedNote = "";
 
@@ -8,6 +10,8 @@ function resetScreen(){
     notepad.style.display = "none";
     welcomeSplash.style.display = "none";
     createNoteMenu.style.display = "none";
+    noteOnlyToolbar.style.display = "none";
+    noteView.style.display = "none";
 }
 
 function start(){
@@ -33,6 +37,7 @@ function createNewNote(){
         if (data.message == "ok"){
             resetScreen();
             notepad.style.display = "flex";
+            noteOnlyToolbar.style.display = "flex";
             currentlyLoadedNote = newNoteNameInput.value;
             newNoteNameInput.value = "";
         } else {
@@ -58,6 +63,46 @@ function saveNote(){
         alert(data.message);
     })
     .catch(error => console.error(error));
+}
+
+function enableNoteView(){
+    var searchByNameInput = document.getElementById('searchByNameInput');
+    var searchByTagInput = document.getElementById('searchByTagInput');
+
+    fetch('/listnotes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ "name" : searchByNameInput.value, "tag" : searchByTagInput.value })
+    })
+    .then(response => response.json())
+    .then(data => {
+        populateNoteView(data)
+    })
+    .catch(error => console.error(error));
+
+    resetScreen();
+    noteView.style.display = "flex";
+}
+
+function populateNoteView(data){
+    var noteViewContainer = document.getElementById("noteViewContainer")
+    
+    noteViewContainer.innerHTML = "";
+
+    for (var note of data.notes){
+        var noteViewNote = document.createElement("div");
+        noteViewNote.className = "note-view-note";
+        noteViewNote.setAttribute("onclick", "loadNote('"+note[0]+"')");
+        noteViewContainer.appendChild(noteViewNote)
+
+        var noteViewNoteName = document.createElement("h3");
+        noteViewNoteName.textContent = note[0];
+        noteViewNote.appendChild(noteViewNoteName);
+
+        var noteViewNoteSnippet = document.createElement("p");
+        noteViewNoteSnippet.textContent = note[1];
+        noteViewNote.appendChild(noteViewNoteSnippet);
+    }
 }
 
 start();

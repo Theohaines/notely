@@ -8,15 +8,10 @@
 </head>
 <body>
     <div class="tool-bar">
-        <button>Notely</button>
-        <button>Home</button>
-        <button>Create</button>
-        <button>View</button>
-        <button onclick="saveNote()">Save</button>
-    </div>
-
-    <div class="side-bar">
-
+        <button onclick="start()"><img src="/media/icons/toolbar/home.svg" alt="go to the home menu"></button>
+        <div id="noteOnlyToolbar">
+            <button onclick="saveNote()"><img src="/media/icons/toolbar/save.svg" alt="save the currently selected note"></button> 
+        </div>
     </div>
 
     <div class="main-container">
@@ -29,7 +24,7 @@
                     <h1>create new note</h1>
                     <img src="/media/icons/notestackadd.svg" alt="">
                 </div>
-                <div class="welcome-splash-button">
+                <div class="welcome-splash-button" onclick="enableNoteView()">
                     <h1>view existing notes</h1>
                     <img src="/media/icons/notestack.svg" alt="">
                 </div>
