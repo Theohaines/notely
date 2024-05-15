@@ -31,7 +31,7 @@ app.use('/createnote', async function (req, res){
 });
 
 app.use('/savenote', async function (req, res){
-    var message = await savenote.saveNote(req.body.name);
+    var message = await savenote.saveNote(req.body.name, req.body.body);
 
     res.json({"message" : message});
 });

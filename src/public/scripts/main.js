@@ -51,7 +51,7 @@ function saveNote(){
     fetch('/savenote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: currentlyLoadedNote })
+        body: JSON.stringify({ "name" : currentlyLoadedNote, "body" : notepad.value })
     })
     .then(response => response.json())
     .then(data => {
