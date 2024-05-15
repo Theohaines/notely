@@ -139,6 +139,12 @@ async function editTagsMenuGUI(){
     editTagsMenu.style.display = "flex";
 }
 
+function closeEditTagsMenuGUI(){
+    resetScreen();
+    notepad.style.display = "flex";
+    noteOnlyToolbar.style.display = "flex";
+}
+
 async function loadTagsGUI(){
     var loaded = await new Promise ((resolve, reject) => {
         fetch('/loadtags', {
@@ -165,6 +171,7 @@ async function loadTagsGUI(){
 
                 var tagMenuTagImg = document.createElement("img");
                 tagMenuTagImg.src = "/media/icons/tagmenus/deletetag.svg";
+                tagMenuTagImg.setAttribute("onclick", "removeTag('"+tag+"')");
                 tagMenuTag.appendChild(tagMenuTagImg);
             }
         })
@@ -188,6 +195,20 @@ function addTag(){
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ "name" : currentlyLoadedNote, "tag" : addTagNameInput.value })
+    })
+    .then(response => response.json())
+    .then(data => {
+        loadTagsGUI();
+        alert(data);
+    })
+    .catch(error => console.error(error));
+}
+
+function removeTag(tag){
+    fetch('/removetag', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ "name" : currentlyLoadedNote, "tag" : tag })
     })
     .then(response => response.json())
     .then(data => {

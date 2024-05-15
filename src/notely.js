@@ -8,6 +8,7 @@ const listnotes = require('./scripts/listnotes.js');
 const loadnote = require('./scripts/loadnote.js');
 const addtag = require('./scripts/tags/addtag.js');
 const loadtags = require('./scripts/tags/loadtags.js');
+const removetag = require('./scripts/tags/removetag.js');
 
 const app = express();
 app.use(express.json());
@@ -65,4 +66,11 @@ app.use('/loadtags', async function (req, res){
 
     res.json(message);
 });
+
+app.use('/removetag', async function (req, res){
+    var message = await removetag.removeTag(req.body.name, req.body.tag);
+
+    res.json(message);
+});
+
 
