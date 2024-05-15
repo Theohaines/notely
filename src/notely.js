@@ -6,6 +6,8 @@ const createnote = require('./scripts/createnote.js');
 const savenote = require('./scripts/savenote.js');
 const listnotes = require('./scripts/listnotes.js');
 const loadnote = require('./scripts/loadnote.js');
+const addtag = require('./scripts/tags/addtag.js');
+const loadtags = require('./scripts/tags/loadtags.js');
 
 const app = express();
 app.use(express.json());
@@ -48,5 +50,19 @@ app.use('/loadnote', async function (req, res){
     var note = await loadnote.loadNote(req.body.name);
 
     res.json(note);
+});
+
+//TAGS
+
+app.use('/addtag', async function (req, res){
+    var message = await addtag.addTag(req.body.name, req.body.tag);
+
+    res.json(message);
+});
+
+app.use('/loadtags', async function (req, res){
+    var message = await loadtags.loadTags(req.body.name);
+
+    res.json(message);
 });
 

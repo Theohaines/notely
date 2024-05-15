@@ -11,6 +11,7 @@
         <button onclick="start()"><img src="/media/icons/toolbar/home.svg" alt="go to the home menu"></button>
         <div id="noteOnlyToolbar">
             <button onclick="saveNote()"><img src="/media/icons/toolbar/save.svg" alt="save the currently selected note"></button> 
+            <button onclick="editTagsMenuGUI()"><img src="/media/icons/toolbar/edittags.svg" alt="edit tags for the currently selected note"></button> 
         </div>
     </div>
 
@@ -44,6 +45,18 @@
             </div>
             <div class="note-view-container" id="noteViewContainer">
             </div>
+        </div>
+
+        <div class="edit-tags-menu" id="editTagsMenu">
+            <div class="edit-tags-menu-tag-container" id="editTagsMenuTagContainer">
+                <div class="tag-menu-tag">
+                    <h4>TAG NAME</h4>
+                    <img src="/media/icons/tagmenus/deletetag.svg" alt="">
+                </div>
+            </div>
+            <input type="text" id="addTagNameInput" placeholder="add new tag...">
+            <button onclick="addTag()">add</button>
+            <button>close editor</button>
         </div>
     </div>
 </body>

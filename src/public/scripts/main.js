@@ -3,17 +3,17 @@ const welcomeSplash = document.getElementById('welcomeSplash');
 const createNoteMenu = document.getElementById('createNoteMenu');
 const noteOnlyToolbar = document.getElementById('noteOnlyToolbar');
 const noteView = document.getElementById('noteView');
+const editTagsMenu = document.getElementById('editTagsMenu');
 
 var currentlyLoadedNote = "";
 
 function resetScreen(){
-    notepad.value = "";
-
     notepad.style.display = "none";
     welcomeSplash.style.display = "none";
     createNoteMenu.style.display = "none";
     noteOnlyToolbar.style.display = "none";
     noteView.style.display = "none";
+    editTagsMenu.style.display = "none";
 }
 
 function start(){
@@ -119,6 +119,7 @@ function loadNote(name){
             alert(data.note);
         } else {
             resetScreen();
+            notepad.value = "";
 
             data = JSON.parse(data)
 
@@ -128,6 +129,70 @@ function loadNote(name){
 
             currentlyLoadedNote = name;
         }
+    })
+    .catch(error => console.error(error));
+}
+
+async function editTagsMenuGUI(){
+    resetScreen();
+    await loadTagsGUI();
+    editTagsMenu.style.display = "flex";
+}
+
+async function loadTagsGUI(){
+    var loaded = await new Promise ((resolve, reject) => {
+        fetch('/loadtags', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ "name" : currentlyLoadedNote })
+        })
+        .then(response => response.json())
+        .then(data => {
+            resolve(true);
+
+            var editTagsMenuTagContainer = document.getElementById('editTagsMenuTagContainer');
+
+            editTagsMenuTagContainer.innerHTML = "";
+
+            for (var tag of data){
+                var tagMenuTag = document.createElement("div");
+                tagMenuTag.className = "tag-menu-tag";
+                editTagsMenuTagContainer.appendChild(tagMenuTag);
+
+                var tagMenuTagName = document.createElement("h4");
+                tagMenuTagName.textContent = tag;
+                tagMenuTag.appendChild(tagMenuTagName);
+
+                var tagMenuTagImg = document.createElement("img");
+                tagMenuTagImg.src = "/media/icons/tagmenus/deletetag.svg";
+                tagMenuTag.appendChild(tagMenuTagImg);
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            resolve(false);
+        });
+    });
+
+    if (!loaded){
+        alert("error while loading tags. Check developer console.")
+    } else {
+        return true;
+    }
+}
+
+function addTag(){
+    var addTagNameInput = document.getElementById("addTagNameInput");
+
+    fetch('/addtag', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ "name" : currentlyLoadedNote, "tag" : addTagNameInput.value })
+    })
+    .then(response => response.json())
+    .then(data => {
+        loadTagsGUI();
+        alert(data);
     })
     .catch(error => console.error(error));
 }
