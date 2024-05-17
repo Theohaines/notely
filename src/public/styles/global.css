@@ -13,8 +13,80 @@
     padding: 0;
     font-family: "Noto Sans", sans-serif;
     font-optical-sizing: auto;
+    color: white;
 }
 
 body {
     background-color: var(--darkergrey);
+}
+
+.notes-sidebar {
+    height: 100%;
+    width: 230px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 5px;
+    background-color: var(--darkestgrey);
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    align-items: center;
+}
+
+.notes-sidebar button {
+    transition: 1s;
+    width: 96%;
+    background-color: var(--darkestgrey);
+    border: var(--lightgrey) 2px solid;
+    height: 30px;
+    outline: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notes-sidebar button:hover {
+    transition: 1s;
+    background-color: var(--darkergrey);
+    border: var(--accentblue) 2px solid;
+}
+
+.notes-sidebar input[type="text"] {
+    width: 96%;
+    background-color: var(--darkestgrey);
+    border: var(--lightgrey) 2px solid;
+    height: 30px;
+    outline: none;
+}
+
+.notes-sidebar input[type="text"]:focus {
+    border: var(--accentblue) 2px solid;
+}
+
+.notes-sidebar-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-note {
+    transition: 1s;
+    width: 95%;
+    height: fit-content;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: var(--darkestgrey);
+    border: var(--lightgrey) 2px solid;
+}
+
+.sidebar-note:hover {
+    transition: 1s;
+    background-color: var(--darkergrey);
+    border: var(--accentblue) 2px solid;
 }
