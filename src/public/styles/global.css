@@ -4,8 +4,9 @@
     --accentblue : #007acc;
     --lightgrey : #3e3e42;
     --darkergrey : #2d2d30;
-
     --darkestgrey : #252526;
+
+    --opacityfilter : #373839df;
 }
 
 * {
@@ -13,284 +14,214 @@
     padding: 0;
     font-family: "Noto Sans", sans-serif;
     font-optical-sizing: auto;
+    color: white;
 }
 
 body {
     background-color: var(--darkergrey);
 }
 
-.menu-button{
-    color: white;
-    background-color: var(--darkestgrey);
-    border: solid 1px var(--lightgrey);
-    width: 40%;
-    height: 30px;
-    font-size: large;
-    cursor: pointer;
-}
-
-.menu-button:hover {
-    background-color: var(--darkergrey);
-}
-
-.text-input{
-    width: 40%;
-    height: 30px;
-    background-color: var(--darkestgrey);
-    border: 1px solid var(--lightgrey);
-    color: white;
-    outline: none;
-
-    font-size: large;
-}
-
-.text-input:focus {
-    background-color: var(--darkergrey);
-    border-color: var(--accentblue);
-}
-
 .main-container {
-    background-color: var(--lightgrey);
-    margin: auto;
-    margin-top: 5px;
-    width: 90%;
-    height: 95%;
+    width: 100%;
+    height: 100%;
 
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    flex-flow: row;
     flex-wrap: nowrap;
-}
-
-.main-container textarea {
-    color: white;
-    background-color: var(--lightgrey);
-    width: 100%;
-    height: 100%;
-    border: none;
-    outline: none;
-    resize: none;
-}
-
-.tool-bar {
-    background-color: var(--darkestgrey);
-    width: 100%;
-    
-    display: flex;
-    flex-direction: row;
-}
-
-.tool-bar button {
-    color: lightgray;
-    background-color: var(--darkestgrey);
-    border: 1px;
-    border-color: var(--lightgrey);
-    border-style: solid;
-    border-bottom: none;
-    border-top: none;
-    height: 100%;
-    padding-left: 10px;
-    padding-right: 10px;
-
-    cursor: pointer;
-}
-
-.tool-bar button img{
-    width: 35px;
-}
-
-.tool-bar button:hover {
-    background-color: var(--darkergrey);
-}
-
-.welcome-splash {
-    color: white;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    row-gap: 10px;
+    justify-content: center;
 }
 
-.welcome-splash-menu-options {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
-    column-gap: 25px;
-}
-
-.welcome-splash-button {
-    color: white;
-    background-color: var(--darkestgrey);
-    border: 2px solid var(--accentblue);
-
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-
-    text-align: center;
-    height: 230px;
+.notes-sidebar {
+    height: 100%;
     width: 15%;
-}
-
-.welcome-splash-button:hover {
-    background-color: var(--darkergrey);
-    cursor: pointer;
-}
-
-.welcome-splash-button img{
-    width: 40%;
-    object-fit: contain;
-}
-
-.create-note-menu{
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    flex-direction: column;
-    column-gap: 10px;
-    justify-content: center;
-    align-items: center;
-}
-
-.note-view {
-    width: 100%;
-    height: 100%;
-    color: white;
-    background-color: var(--lightgrey);
-    border: none;
-    outline: none;
-    resize: none;
-
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-}
-
-.note-view .tool-bar input[type="text"] {
-    width: 15%;
-    height: 100%;
-
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
     background-color: var(--darkestgrey);
-    border-left: 1px solid var(--lightgrey);
-    border-right: 1px solid var(--lightgrey);
-    border-bottom: none;
-    border-top: none;
-    outline: none;
-    color: white;
-}
-
-.note-view .tool-bar input[type="text"]:focus {
-    background-color: var(--darkergrey);
-    border-color: #007acc;
-}
-
-.note-view-container {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: baseline;
-    row-gap: 25px;
-    overflow-y: scroll;
-}
-
-.note-view-container{
-    scrollbar-color: var(--darkestgrey);
-}
-
-.note-view-note {
-    transition: 1s;
-    width: 15%;
-    height: 230px;
-    padding: 5px;
-    background-color: var(--darkestgrey);
-    border: 2px solid var(--accentblue);
-}
-
-.note-view p{
-    display: -webkit-box;
-    -webkit-line-clamp: 9;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.note-view-note:hover {
-    background-color: var(--darkergrey);
-    cursor: pointer;
-
-    transition: 1s;
-    box-shadow: 5px 10px #888888;
-}
-
-.edit-tags-menu {
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    justify-content: center;
-    align-items: center;
-}
-
-.edit-tags-menu input[type="text"] {
-    width: 30%;
-    height: 30px;
-    padding: 5px;
-    background-color: var(--darkestgrey);
-    border: 1px solid var(--lightgrey);
-    color: white;
-    outline: none;
-
-    font-size: large;
-}
-
-.edit-tags-menu input[type="text"]:focus {
-    background-color: var(--darkergrey);
-    border-color: var(--accentblue);
-}
-
-.edit-tags-menu button{
-    width: 30%;
-    height: 30px;
-    padding: 5px;
-    background-color: var(--darkestgrey);
-    border: 1px solid var(--lightgrey);
-    color: white;
-    outline: none;
-}
-
-.edit-tags-menu button:hover{
-    background-color: var(--darkergrey);
-}
-
-.edit-tags-menu-tag-container {
-    width: 100%;
-    height: 100%;
 
     display: flex;
     flex-direction: column;
     row-gap: 5px;
+    align-items: center;
+}
+
+.notes-sidebar button {
+    transition: 1s;
+    width: 96%;
+    background-color: var(--darkestgrey);
+    border: var(--lightgrey) 2px solid;
+    height: 30px;
+    outline: none;
+
+    display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.notes-sidebar button:hover {
+    transition: 1s;
+    background-color: var(--darkergrey);
+    border: var(--accentblue) 2px solid;
+}
+
+.notes-sidebar input[type="text"] {
+    width: 96%;
+    background-color: var(--darkestgrey);
+    border: var(--lightgrey) 2px solid;
+    height: 30px;
+    outline: none;
+}
+
+.notes-sidebar input[type="text"]:focus {
+    border: var(--accentblue) 2px solid;
+}
+
+.notes-sidebar-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 5px;
+    align-items: center;
+}
+
+.sidebar-note {
+    transition: 1s;
+    width: 95%;
+    height: fit-content;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: var(--darkestgrey);
+    border: var(--lightgrey) 2px solid;
+}
+
+.sidebar-note:hover {
+    transition: 1s;
+    background-color: var(--darkergrey);
+    border: var(--accentblue) 2px solid;
+}
+
+.note-edits-container {
+    width: 85%;
+    height: 100%;
+
+    display: flex;
+    flex-flow: column;
+}
+
+.tool-bar {
+    width: 100%;
+    height: 40px;
+
+    background-color: var(--darkestgrey);
+
+    display: flex;
+    flex-direction: row;
+}
+
+.tool-bar button{
+    height: 100%;
+    background-color: var(--darkestgrey);
+    border: var(--darkestgrey) 2px solid;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tool-bar button:hover{
+    background-color: var(--darkergrey);
+    border: var(--accentblue) 2px solid;
+}
+
+.tool-bar button img{
+    height: 100%;
+}
+
+.notepad {
+    background-color: #2d2d30;
+    resize: none;
+    height: 100%;
+
+    outline: none;
+}
+
+.appear-over-everything-main-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    left: 0;
+    top: 0;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--opacityfilter);
+}
+
+.appear-over-everything-main-container input[type="text"] {
+    width: 60%;
+    height: 30px;
+
+    font-size: large;
+    outline: none;
+
+    background-color: var(--darkestgrey);
+    border: var(--lightgrey) 2px solid;
+}
+
+.appear-over-everything-main-container input[type="text"]:focus {
+    border: var(--accentblue) 2px solid;
+}
+
+.appear-over-everything-main-container button{
+    transition: 1s;
+    width: 60%;
+    height: 30px;
+
+    font-size: large;
+    outline: none;
+
+    background-color: var(--darkestgrey);
+    border: var(--lightgrey) 2px solid;
+}
+
+.appear-over-everything-main-container button:hover {
+    transition: 1s;
+    background-color: var(--darkergrey);
+    border: var(--accentblue) 2px solid;
+}
+
+.popup {
+    background-color: #252526;
+    border: #3e3e42 2px solid;
+    width: 40%;
+    padding: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+    row-gap: 5px;
+}
+
+.tags-container {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .tag-menu-tag {
-    color: white;
     background-color: var(--darkestgrey);
     border: 1px var(--accentblue) solid;
-    width: 30%;
+    width: 60%;
     height: 40px;
     padding: 5px;
 
@@ -299,8 +230,4 @@ body {
     column-gap: 10px;
     justify-content: space-between;
     align-items: center;
-}
-
-.tag-menu-tag img{
-    height: 100%;
 }

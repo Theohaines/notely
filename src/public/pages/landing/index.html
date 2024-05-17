@@ -7,56 +7,48 @@
     <link rel="stylesheet" href="/styles/global.css">
 </head>
 <body>
-    <div class="tool-bar">
-        <button onclick="start()"><img src="/media/icons/toolbar/home.svg" alt="go to the home menu"></button>
-        <div id="noteOnlyToolbar">
-            <button onclick="saveNote()"><img src="/media/icons/toolbar/save.svg" alt="save the currently selected note"></button> 
-            <button onclick="editTagsMenuGUI()"><img src="/media/icons/toolbar/edittags.svg" alt="edit tags for the currently selected note"></button> 
+    <div class="main-container">
+        
+        <div class="notes-sidebar" id="notesSidebar">
+            <h1>Notely</h1>
+            <button onclick="createNewNoteGUI()">create note<img src="/media/icons/notestackadd.svg" alt=""></button>
+            <input type="text" id="notesSidebarSearch" placeholder="search...">
+            <div class="notes-sidebar-container" id="notesSidebarContainer">
+            </div>
+        </div>
+
+        <div class="note-edits-container">
+            <div class="tool-bar">
+                <button onclick="saveNote()"><img src="/media/icons/toolbar/save.svg" alt="save"></button>
+                <button onclick="tagsMenuGUI()"><img src="/media/icons/toolbar/edittags.svg" alt="edit tags"></button>
+                <button onclick="noteSettingsGUI()"><img src="/media/icons/toolbar/settings.svg" alt="note settings"></button>
+            </div>
+
+            <textarea id="notepad" class="notepad"></textarea>
         </div>
     </div>
 
-    <div class="main-container">
-        <textarea name="notepad" id="notepad" cols="30" rows="10" autofocus></textarea>
-
-        <div class="welcome-splash" id="welcomeSplash">
-            <h1>Welcome to Notely</h1>
-            <div class="welcome-splash-menu-options">
-                <div class="welcome-splash-button" onclick="createNewNoteGUI()">
-                    <h1>create new note</h1>
-                    <img src="/media/icons/notestackadd.svg" alt="">
-                </div>
-                <div class="welcome-splash-button" onclick="enableNoteView()">
-                    <h1>view existing notes</h1>
-                    <img src="/media/icons/notestack.svg" alt="">
-                </div>
-            </div>
+    <div class="appear-over-everything-main-container" id="popupContainer">
+        <div class="popup" id="createNewNotePopup">
+            <h1>create new note</h1>
+            <input type="text" id="newNoteNameInput" placeholder="enter note name...">
+            <button onclick="createNewNote()">create note</button>
         </div>
 
-        <div class="create-note-menu" id="createNoteMenu">
-            <h1 style="color: white;">create new note</h1>
-            <input class="text-input" id="newNoteNameInput" type="text" placeholder="enter a title for this note... (max 60, min 3)">
-            <button class="menu-button" onclick="createNewNote()">create note</button>
+        <div class="popup" id="noteTagsPopup">
+            <h1>note tags</h1>
+            <div class="tags-container" id="tagsContainer">
+
+            </div>
+            <input type="text" id="addTagInput" placeholder="enter tag name...">
+            <button onclick="addTag()">create tag</button>
+            <button onclick="closeTagsMenuGUI()">close</button>
         </div>
 
-        <div class="note-view" id="noteView" style="display: none;">
-            <div class="tool-bar">
-                <input id="searchByNameInput" type="text" placeholder="search by name...">
-                <input id="searchByTagInput" type="text" placeholder="search by tag...">
-            </div>
-            <div class="note-view-container" id="noteViewContainer">
-            </div>
-        </div>
-
-        <div class="edit-tags-menu" id="editTagsMenu">
-            <div class="edit-tags-menu-tag-container" id="editTagsMenuTagContainer">
-                <div class="tag-menu-tag">
-                    <h4>TAG NAME</h4>
-                    <img src="/media/icons/tagmenus/deletetag.svg" alt="">
-                </div>
-            </div>
-            <input type="text" id="addTagNameInput" placeholder="add new tag...">
-            <button onclick="addTag()">add</button>
-            <button onclick="closeEditTagsMenuGUI()">close editor</button>
+        <div class="popup" id="noteSettingsPopup">
+            <h1>note settings</h1>
+            <button onclick="deleteNote()">delete note</button>
+            <button onclick="closeNoteSettingsGUI()">close</button>
         </div>
     </div>
 </body>

@@ -6,6 +6,8 @@ const createnote = require('./scripts/createnote.js');
 const savenote = require('./scripts/savenote.js');
 const listnotes = require('./scripts/listnotes.js');
 const loadnote = require('./scripts/loadnote.js');
+const deletenote = require('./scripts/deletenote.js');
+
 const addtag = require('./scripts/tags/addtag.js');
 const loadtags = require('./scripts/tags/loadtags.js');
 const removetag = require('./scripts/tags/removetag.js');
@@ -53,6 +55,12 @@ app.use('/loadnote', async function (req, res){
     res.json(note);
 });
 
+app.use('/deletenote', async function (req, res){
+    var message = await deletenote.deleteNote(req.body.name);
+
+    res.json(message);
+});
+
 //TAGS
 
 app.use('/addtag', async function (req, res){
@@ -73,4 +81,4 @@ app.use('/removetag', async function (req, res){
     res.json(message);
 });
 
-
+//ACCOUNT

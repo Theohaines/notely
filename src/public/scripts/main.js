@@ -1,29 +1,29 @@
 const notepad = document.getElementById('notepad');
-const welcomeSplash = document.getElementById('welcomeSplash');
-const createNoteMenu = document.getElementById('createNoteMenu');
-const noteOnlyToolbar = document.getElementById('noteOnlyToolbar');
-const noteView = document.getElementById('noteView');
-const editTagsMenu = document.getElementById('editTagsMenu');
+
+const popupContainer = document.getElementById('popupContainer');
+const createNewNotePopup = document.getElementById('createNewNotePopup');
+const noteTagsPopup = document.getElementById('noteTagsPopup');
+const noteSettingsPopup = document.getElementById('noteSettingsPopup');
 
 var currentlyLoadedNote = "";
 
 function resetScreen(){
-    notepad.style.display = "none";
-    welcomeSplash.style.display = "none";
-    createNoteMenu.style.display = "none";
-    noteOnlyToolbar.style.display = "none";
-    noteView.style.display = "none";
-    editTagsMenu.style.display = "none";
+    popupContainer.style.display = "none";
+    createNewNotePopup.style.display = "none";
+    noteTagsPopup.style.display = "none";
+    noteSettingsPopup.style.display = "none";
+
+    loadNotes();
 }
 
 function start(){
     resetScreen();
-    welcomeSplash.style.display = "flex";
 }
 
 function createNewNoteGUI(){
     resetScreen();
-    createNoteMenu.style.display = "flex";
+    popupContainer.style.display = "flex";
+    createNewNotePopup.style.display = "flex";
 }
 
 function createNewNote(){
@@ -38,8 +38,6 @@ function createNewNote(){
     .then(data => {
         if (data.message == "ok"){
             resetScreen();
-            notepad.style.display = "flex";
-            noteOnlyToolbar.style.display = "flex";
             currentlyLoadedNote = newNoteNameInput.value;
             newNoteNameInput.value = "";
         } else {
@@ -67,43 +65,35 @@ function saveNote(){
     .catch(error => console.error(error));
 }
 
-function enableNoteView(){
-    var searchByNameInput = document.getElementById('searchByNameInput');
-    var searchByTagInput = document.getElementById('searchByTagInput');
+function loadNotes(){
+    var notesSidebarSearch = document.getElementById('notesSidebarSearch');
 
     fetch('/listnotes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ "name" : searchByNameInput.value, "tag" : searchByTagInput.value })
+        body: JSON.stringify({ "name" : notesSidebarSearch.value })
     })
     .then(response => response.json())
     .then(data => {
-        populateNoteView(data)
+        populateNotesSidebar(data)
     })
     .catch(error => console.error(error));
-
-    resetScreen();
-    noteView.style.display = "flex";
 }
 
-function populateNoteView(data){
-    var noteViewContainer = document.getElementById("noteViewContainer")
+function populateNotesSidebar(data){
+    var notesSidebarContainer = document.getElementById("notesSidebarContainer")
     
-    noteViewContainer.innerHTML = "";
+    notesSidebarContainer.innerHTML = "";
 
     for (var note of data.notes){
         var noteViewNote = document.createElement("div");
-        noteViewNote.className = "note-view-note";
+        noteViewNote.className = "sidebar-note";
         noteViewNote.setAttribute("onclick", "loadNote('"+note[0]+"')");
-        noteViewContainer.appendChild(noteViewNote)
+        notesSidebarContainer.appendChild(noteViewNote)
 
         var noteViewNoteName = document.createElement("h3");
         noteViewNoteName.textContent = note[0];
         noteViewNote.appendChild(noteViewNoteName);
-
-        var noteViewNoteSnippet = document.createElement("p");
-        noteViewNoteSnippet.textContent = note[1];
-        noteViewNote.appendChild(noteViewNoteSnippet);
     }
 }
 
@@ -124,25 +114,26 @@ function loadNote(name){
             data = JSON.parse(data)
 
             notepad.value = data.body;
-            notepad.style.display = "flex";
-            noteOnlyToolbar.style.display = "flex";
-
             currentlyLoadedNote = name;
         }
     })
     .catch(error => console.error(error));
 }
 
-async function editTagsMenuGUI(){
+async function tagsMenuGUI(){
+    if (!currentlyLoadedNote){
+        alert("No note loaded.");
+        return;
+    }
+
     resetScreen();
     await loadTagsGUI();
-    editTagsMenu.style.display = "flex";
+    popupContainer.style.display = "flex";
+    noteTagsPopup.style.display = "flex";
 }
 
-function closeEditTagsMenuGUI(){
+function closeTagsMenuGUI(){
     resetScreen();
-    notepad.style.display = "flex";
-    noteOnlyToolbar.style.display = "flex";
 }
 
 async function loadTagsGUI(){
@@ -156,14 +147,14 @@ async function loadTagsGUI(){
         .then(data => {
             resolve(true);
 
-            var editTagsMenuTagContainer = document.getElementById('editTagsMenuTagContainer');
+            var tagsContainer = document.getElementById('tagsContainer');
 
-            editTagsMenuTagContainer.innerHTML = "";
+            tagsContainer.innerHTML = "";
 
             for (var tag of data){
                 var tagMenuTag = document.createElement("div");
                 tagMenuTag.className = "tag-menu-tag";
-                editTagsMenuTagContainer.appendChild(tagMenuTag);
+                tagsContainer.appendChild(tagMenuTag);
 
                 var tagMenuTagName = document.createElement("h4");
                 tagMenuTagName.textContent = tag;
@@ -188,13 +179,13 @@ async function loadTagsGUI(){
     }
 }
 
-function addTag(){
-    var addTagNameInput = document.getElementById("addTagNameInput");
+function addTag(){ 
+    var addTagInput = document.getElementById("addTagInput");
 
     fetch('/addtag', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ "name" : currentlyLoadedNote, "tag" : addTagNameInput.value })
+        body: JSON.stringify({ "name" : currentlyLoadedNote, "tag" : addTagInput.value })
     })
     .then(response => response.json())
     .then(data => {
@@ -213,6 +204,42 @@ function removeTag(tag){
     .then(response => response.json())
     .then(data => {
         loadTagsGUI();
+        alert(data);
+    })
+    .catch(error => console.error(error));
+}
+
+function noteSettingsGUI(){
+    if (!currentlyLoadedNote){
+        alert("No note loaded.");
+        return;
+    }
+
+    resetScreen();
+    popupContainer.style.display = "flex";
+    noteSettingsPopup.style.display = "flex";
+}
+
+function closeNoteSettingsGUI(){
+    resetScreen();
+}
+
+function deleteNote(){
+    if (!currentlyLoadedNote){
+        alert("No note loaded.");
+        return;
+    }
+
+    fetch('/deletenote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ "name" : currentlyLoadedNote })
+    })
+    .then(response => response.json())
+    .then(data => {
+        currentlyLoadedNote = "";
+        notepad.value = "";
+        resetScreen();
         alert(data);
     })
     .catch(error => console.error(error));
