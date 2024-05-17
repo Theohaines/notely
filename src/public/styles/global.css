@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
+    --accentblue : #007acc;
     --lightgrey : #3e3e42;
     --darkergrey : #2d2d30;
 
@@ -22,24 +23,37 @@ body {
     color: white;
     background-color: var(--darkestgrey);
     border: solid 1px var(--lightgrey);
-    width: 90%;
+    width: 40%;
     height: 30px;
     font-size: large;
     cursor: pointer;
 }
 
 .menu-button:hover {
-    color: white;
     background-color: var(--darkergrey);
-    border: solid 1px var(--lightgrey);
-    width: 90%;
+}
+
+.text-input{
+    width: 40%;
     height: 30px;
+    background-color: var(--darkestgrey);
+    border: 1px solid var(--lightgrey);
+    color: white;
+    outline: none;
+
     font-size: large;
 }
 
+.text-input:focus {
+    background-color: var(--darkergrey);
+    border-color: var(--accentblue);
+}
+
 .main-container {
+    background-color: var(--lightgrey);
+    margin: auto;
     margin-top: 5px;
-    width: 100%;
+    width: 90%;
     height: 95%;
 
     display: flex;
@@ -52,7 +66,7 @@ body {
 .main-container textarea {
     color: white;
     background-color: var(--lightgrey);
-    width: 90%;
+    width: 100%;
     height: 100%;
     border: none;
     outline: none;
@@ -62,8 +76,7 @@ body {
 .tool-bar {
     background-color: var(--darkestgrey);
     width: 100%;
-    height: 20px;
-
+    
     display: flex;
     flex-direction: row;
 }
@@ -83,49 +96,74 @@ body {
     cursor: pointer;
 }
 
+.tool-bar button img{
+    width: 35px;
+}
+
 .tool-bar button:hover {
     background-color: var(--darkergrey);
 }
 
-.new-note-creator {    
-    color: lightgray;
-    background-color: var(--lightgrey);
-
-    width: 40%;
-
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    row-gap: 5px;
-    padding: 10px;
-}
-
-.new-note-creator input[type="text"] {
+.welcome-splash {
     color: white;
-    background-color: var(--darkergrey);
-    border: solid 1px var(--lightgrey);
-    width: 90%;
-    height: 30px;
-    font-size: large;
-}
-
-.load-note-menu {
-    color: lightgray;
-    background-color: var(--lightgrey);
-
-    width: 40%;
-
-    display: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    row-gap: 5px;
-    padding: 10px;
+    row-gap: 10px;
+}
+
+.welcome-splash-menu-options {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    column-gap: 25px;
+}
+
+.welcome-splash-button {
+    color: white;
+    background-color: var(--darkestgrey);
+    border: 2px solid var(--accentblue);
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    height: 230px;
+    width: 15%;
+}
+
+.welcome-splash-button:hover {
+    background-color: var(--darkergrey);
+    cursor: pointer;
+}
+
+.welcome-splash-button img{
+    width: 40%;
+    object-fit: contain;
+}
+
+.create-note-menu{
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    column-gap: 10px;
+    justify-content: center;
+    align-items: center;
 }
 
 .note-view {
-    width: 90%;
+    width: 100%;
     height: 100%;
     color: white;
     background-color: var(--lightgrey);
@@ -153,30 +191,36 @@ body {
 
 .note-view .tool-bar input[type="text"]:focus {
     background-color: var(--darkergrey);
+    border-color: #007acc;
 }
 
 .note-view-container {
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-evenly;
-    row-gap: 5px;
+    justify-content: space-between;
+    align-items: baseline;
+    row-gap: 25px;
     overflow-y: scroll;
 }
 
+.note-view-container{
+    scrollbar-color: var(--darkestgrey);
+}
+
 .note-view-note {
-    border: 2px var(--darkergrey) solid;
+    transition: 1s;
     width: 15%;
-    height: 160px;
+    height: 230px;
     padding: 5px;
     background-color: var(--darkestgrey);
+    border: 2px solid var(--accentblue);
 }
 
 .note-view p{
     display: -webkit-box;
-    -webkit-line-clamp: 5;
+    -webkit-line-clamp: 9;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -184,4 +228,79 @@ body {
 
 .note-view-note:hover {
     background-color: var(--darkergrey);
+    cursor: pointer;
+
+    transition: 1s;
+    box-shadow: 5px 10px #888888;
+}
+
+.edit-tags-menu {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-tags-menu input[type="text"] {
+    width: 30%;
+    height: 30px;
+    padding: 5px;
+    background-color: var(--darkestgrey);
+    border: 1px solid var(--lightgrey);
+    color: white;
+    outline: none;
+
+    font-size: large;
+}
+
+.edit-tags-menu input[type="text"]:focus {
+    background-color: var(--darkergrey);
+    border-color: var(--accentblue);
+}
+
+.edit-tags-menu button{
+    width: 30%;
+    height: 30px;
+    padding: 5px;
+    background-color: var(--darkestgrey);
+    border: 1px solid var(--lightgrey);
+    color: white;
+    outline: none;
+}
+
+.edit-tags-menu button:hover{
+    background-color: var(--darkergrey);
+}
+
+.edit-tags-menu-tag-container {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.tag-menu-tag {
+    color: white;
+    background-color: var(--darkestgrey);
+    border: 1px var(--accentblue) solid;
+    width: 30%;
+    height: 40px;
+    padding: 5px;
+
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tag-menu-tag img{
+    height: 100%;
 }

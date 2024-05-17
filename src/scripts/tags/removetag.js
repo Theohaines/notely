@@ -1,20 +1,20 @@
 const fs = require('fs');
 const path = require('path');
 
-async function loadNote(name){
+async function removeTag(name, tag){
     var validatedExists = await validatedNoteExists(name);
 
     if (!validatedExists){
         return "no note with the specified name exists."
     }
 
-    var validateNoteLoaded = await loadNoteUsingFS(name);
+    var validatedRemoveTag = await removeTagUsingFS(name, tag);
 
-    if (!validateNoteLoaded){
-        return "note could not be loaded."
+    if (!validatedRemoveTag){
+        return "Tag could not be removed."
     }
 
-    return validateNoteLoaded;
+    return "Tag removed."
 }
 
 async function validatedNoteExists(name){
@@ -37,22 +37,29 @@ async function validatedNoteExists(name){
     }
 }
 
-async function loadNoteUsingFS(name){
-    var validated = await new Promise((resolve, reject) => {
-        fs.readFile(path.resolve('src/notes/' + name + '.json'), 'utf-8', (err, data) => {
+async function removeTagUsingFS(name, tag){
+    var filepath = path.resolve('src/notes/' + name + '.json');
+
+    var validated = await new Promise ((resolve, reject) => {
+        var data = fs.readFileSync(filepath, 'utf8');
+
+        var parsedJSON = JSON.parse(data);
+        parsedJSON.tags = parsedJSON.tags.filter(e => e !== tag);
+
+        fs.writeFile(filepath, JSON.stringify(parsedJSON, null, 2), (err) => {
             if (err){
                 resolve(false);
-            }    
-
-            resolve(data);
-        });
+            } else {
+                resolve(true);
+            }
+        });     
     });
 
     if (!validated){
         return false;
     } else {
-        return validated;
+        return true;
     }
 }
 
-module.exports = { loadNote }
+module.exports = { removeTag }

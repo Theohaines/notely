@@ -1,49 +1,69 @@
 const fs = require('fs');
 const path = require('path');
 
-async function saveNote(noteName, noteText){
-    var validated = await checkNoteExists(noteName);
+async function saveNote(name, body){
+    var validatedExists = await validatedNoteExists(name);
 
-    if (!validated){
-        return "E004: No note exists.";
+    if (!validatedExists){
+        return "no note with the specified name exists."
     }
 
-    saveNoteUsingFS(noteName, noteText);
+    var validatedSaved = await saveNoteUsingFS(name, body);
 
-    return "I002: Note saved!";
+    if (!validatedSaved){
+        return "note could not be saved. If running locally check the server console.";
+    }
+
+    return "note saved.";
 }
 
-async function checkNoteExists(noteName){ //Checks if a note exists
-    var notePath = path.resolve('src/notes/' + noteName + ".txt");
+async function validatedNoteExists(name){
+    var filepath = path.resolve('src/notes');
 
-    var exists = await new Promise ((resolve, reject) => {
-        fs.stat(notePath, (err, stats) => {
+    var validated = await new Promise ((resolve, reject) => {
+        fs.readFile(filepath + "/" + name + ".json", 'utf8', (err, data) => {
             if (err) {
-                console.log(`The file or directory at '${notePath}' does not exist.`);
                 resolve(false);
             } else {
-                console.log(`The file or directory at '${notePath}' exists.`);
                 resolve(true);
             }
-        });
-    })
+        })
+    });
 
-    if (!exists){
+    if (!validated){
         return false;
+    } else {
+        return true;
     }
-
-    return true;
 }
 
-async function saveNoteUsingFS(noteName, noteText){
-    var notePath = path.resolve('src/notes/' + noteName + ".txt");
+async function saveNoteUsingFS(name, body){
+    var filepath = path.resolve('src/notes/' + name + '.json');
 
-    fs.writeFile(notePath, noteText, function(err) {
-        if(err) {
-            return console.log(err);
-        }
-        console.log("The file was saved!");
+    var validated = await new Promise ((resolve, reject) => {
+        fs.readFile(filepath, 'utf8', (err, data) => {
+            if (err){
+                resolve(false);
+            }
+
+            var existingJSON = JSON.parse(data);
+            existingJSON.body = body;
+    
+            fs.writeFile(filepath, JSON.stringify(existingJSON, null, 2), (err) => {
+                if (err){
+                    resolve(false);
+                } else {
+                    resolve(true);
+                }
+            });     
+        });
     });
+
+    if (!validated){
+        return false;
+    } else {
+        return true;
+    }
 }
 
 module.exports = { saveNote }

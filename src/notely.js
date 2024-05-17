@@ -6,7 +6,9 @@ const createnote = require('./scripts/createnote.js');
 const savenote = require('./scripts/savenote.js');
 const listnotes = require('./scripts/listnotes.js');
 const loadnote = require('./scripts/loadnote.js');
-const loadnoteview = require('./scripts/loadnoteview.js');
+const addtag = require('./scripts/tags/addtag.js');
+const loadtags = require('./scripts/tags/loadtags.js');
+const removetag = require('./scripts/tags/removetag.js');
 
 const app = express();
 app.use(express.json());
@@ -28,37 +30,47 @@ app.listen(process.env.PORT, () => {
 });
 
 app.use('/createnote', async function (req, res){
-    var message = await createnote.createNote(req.body.noteName);
+    var message = await createnote.createNote(req.body.name);
 
     res.json({"message" : message});
 });
 
 app.use('/savenote', async function (req, res){
-    var message = await savenote.saveNote(req.body.noteName, req.body.noteText);
+    var message = await savenote.saveNote(req.body.name, req.body.body);
 
     res.json({"message" : message});
 });
 
 app.use('/listnotes', async function (req, res){
-    var notes = await listnotes.listNotes();
+    var notes = await listnotes.listNotes(req.body.name, req.body.tag);
 
-    res.json(notes);
-})
+    res.json({notes});
+});
 
 app.use('/loadnote', async function (req, res){
-    var responsejson = await loadnote.loadNote(req.body.noteName);
-    responsejson = JSON.parse(responsejson)
+    var note = await loadnote.loadNote(req.body.name);
 
-    if (responsejson.message != "ok"){
-        res.json({"message" : responsejson.message});
-        return;
-    }
+    res.json(note);
+});
 
-    res.json({"message" : "ok", "noteContents" : responsejson.noteContents});
-})
+//TAGS
 
-app.use('/loadnoteview', async function (req, res){
-    var notes = await loadnoteview.loadNoteView(req.body.name, req.body.tag);
+app.use('/addtag', async function (req, res){
+    var message = await addtag.addTag(req.body.name, req.body.tag);
 
-    res.json(notes);
-})
+    res.json(message);
+});
+
+app.use('/loadtags', async function (req, res){
+    var message = await loadtags.loadTags(req.body.name);
+
+    res.json(message);
+});
+
+app.use('/removetag', async function (req, res){
+    var message = await removetag.removeTag(req.body.name, req.body.tag);
+
+    res.json(message);
+});
+
+

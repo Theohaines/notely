@@ -1,20 +1,20 @@
 const fs = require('fs');
 const path = require('path');
 
-async function loadNote(name){
+async function loadTags(name){
     var validatedExists = await validatedNoteExists(name);
 
     if (!validatedExists){
         return "no note with the specified name exists."
     }
 
-    var validateNoteLoaded = await loadNoteUsingFS(name);
+    var tags = await loadTagsUsingFS(name);
 
-    if (!validateNoteLoaded){
-        return "note could not be loaded."
+    if (!tags){
+        return "tags could not be loaded. if locally hosted check server console";
     }
 
-    return validateNoteLoaded;
+    return tags;
 }
 
 async function validatedNoteExists(name){
@@ -37,15 +37,12 @@ async function validatedNoteExists(name){
     }
 }
 
-async function loadNoteUsingFS(name){
+async function loadTagsUsingFS(name){
     var validated = await new Promise((resolve, reject) => {
-        fs.readFile(path.resolve('src/notes/' + name + '.json'), 'utf-8', (err, data) => {
-            if (err){
-                resolve(false);
-            }    
-
-            resolve(data);
-        });
+        var data = fs.readFileSync(path.resolve('src/notes/' + name + '.json'), 'utf-8');
+        
+        parsedJSON = JSON.parse(data);
+        resolve(parsedJSON.tags);
     });
 
     if (!validated){
@@ -55,4 +52,4 @@ async function loadNoteUsingFS(name){
     }
 }
 
-module.exports = { loadNote }
+module.exports = { loadTags }
