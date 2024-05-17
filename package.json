@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node src/notely.js"
+    "start": "nodemon src/notely.js --ext js,json,html,css,env"
   },
   "dependencies": {
     "dotenv": "^16.4.5",

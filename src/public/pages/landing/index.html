@@ -11,24 +11,45 @@
         
         <div class="notes-sidebar" id="notesSidebar">
             <h1>Notely</h1>
-            <button>create note<img src="/media/icons/notestackadd.svg" alt=""></button>
+            <button onclick="createNewNoteGUI()">create note<img src="/media/icons/notestackadd.svg" alt=""></button>
             <input type="text" id="notesSidebarSearch" placeholder="search...">
             <div class="notes-sidebar-container" id="notesSidebarContainer">
-                <div class="sidebar-note">
-                    <h3>Note name</h3>
-                </div>
             </div>
         </div>
 
         <div class="note-edits-container">
             <div class="tool-bar">
-                <button><img src="/media/icons/toolbar/save.svg" alt="save"></button>
-                <button><img src="/media/icons/toolbar/edittags.svg" alt="save"></button>
+                <button onclick="saveNote()"><img src="/media/icons/toolbar/save.svg" alt="save"></button>
+                <button onclick="tagsMenuGUI()"><img src="/media/icons/toolbar/edittags.svg" alt="edit tags"></button>
+                <button onclick="noteSettingsGUI()"><img src="/media/icons/toolbar/settings.svg" alt="note settings"></button>
             </div>
 
             <textarea id="notepad" class="notepad"></textarea>
         </div>
+    </div>
 
+    <div class="appear-over-everything-main-container" id="popupContainer">
+        <div class="popup" id="createNewNotePopup">
+            <h1>create new note</h1>
+            <input type="text" id="newNoteNameInput" placeholder="enter note name...">
+            <button onclick="createNewNote()">create note</button>
+        </div>
+
+        <div class="popup" id="noteTagsPopup">
+            <h1>note tags</h1>
+            <div class="tags-container" id="tagsContainer">
+
+            </div>
+            <input type="text" id="addTagInput" placeholder="enter tag name...">
+            <button onclick="addTag()">create tag</button>
+            <button onclick="closeTagsMenuGUI()">close</button>
+        </div>
+
+        <div class="popup" id="noteSettingsPopup">
+            <h1>note settings</h1>
+            <button onclick="deleteNote()">delete note</button>
+            <button onclick="closeNoteSettingsGUI()">close</button>
+        </div>
     </div>
 </body>
 <script src="/scripts/main.js"></script>

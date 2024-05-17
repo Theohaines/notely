@@ -1,20 +1,29 @@
 const notepad = document.getElementById('notepad');
 
+const popupContainer = document.getElementById('popupContainer');
+const createNewNotePopup = document.getElementById('createNewNotePopup');
+const noteTagsPopup = document.getElementById('noteTagsPopup');
+const noteSettingsPopup = document.getElementById('noteSettingsPopup');
+
 var currentlyLoadedNote = "";
 
 function resetScreen(){
+    popupContainer.style.display = "none";
+    createNewNotePopup.style.display = "none";
+    noteTagsPopup.style.display = "none";
+    noteSettingsPopup.style.display = "none";
 
+    loadNotes();
 }
 
 function start(){
     resetScreen();
-    loadNotes();
-    welcomeSplash.style.display = "flex";
 }
 
 function createNewNoteGUI(){
     resetScreen();
-    createNoteMenu.style.display = "flex";
+    popupContainer.style.display = "flex";
+    createNewNotePopup.style.display = "flex";
 }
 
 function createNewNote(){
@@ -29,8 +38,6 @@ function createNewNote(){
     .then(data => {
         if (data.message == "ok"){
             resetScreen();
-            notepad.style.display = "flex";
-            noteOnlyToolbar.style.display = "flex";
             currentlyLoadedNote = newNoteNameInput.value;
             newNoteNameInput.value = "";
         } else {
@@ -107,25 +114,26 @@ function loadNote(name){
             data = JSON.parse(data)
 
             notepad.value = data.body;
-            notepad.style.display = "flex";
-            noteOnlyToolbar.style.display = "flex";
-
             currentlyLoadedNote = name;
         }
     })
     .catch(error => console.error(error));
 }
 
-async function editTagsMenuGUI(){
+async function tagsMenuGUI(){
+    if (!currentlyLoadedNote){
+        alert("No note loaded.");
+        return;
+    }
+
     resetScreen();
     await loadTagsGUI();
-    editTagsMenu.style.display = "flex";
+    popupContainer.style.display = "flex";
+    noteTagsPopup.style.display = "flex";
 }
 
-function closeEditTagsMenuGUI(){
+function closeTagsMenuGUI(){
     resetScreen();
-    notepad.style.display = "flex";
-    noteOnlyToolbar.style.display = "flex";
 }
 
 async function loadTagsGUI(){
@@ -139,14 +147,14 @@ async function loadTagsGUI(){
         .then(data => {
             resolve(true);
 
-            var editTagsMenuTagContainer = document.getElementById('editTagsMenuTagContainer');
+            var tagsContainer = document.getElementById('tagsContainer');
 
-            editTagsMenuTagContainer.innerHTML = "";
+            tagsContainer.innerHTML = "";
 
             for (var tag of data){
                 var tagMenuTag = document.createElement("div");
                 tagMenuTag.className = "tag-menu-tag";
-                editTagsMenuTagContainer.appendChild(tagMenuTag);
+                tagsContainer.appendChild(tagMenuTag);
 
                 var tagMenuTagName = document.createElement("h4");
                 tagMenuTagName.textContent = tag;
@@ -171,13 +179,13 @@ async function loadTagsGUI(){
     }
 }
 
-function addTag(){
-    var addTagNameInput = document.getElementById("addTagNameInput");
+function addTag(){ 
+    var addTagInput = document.getElementById("addTagInput");
 
     fetch('/addtag', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ "name" : currentlyLoadedNote, "tag" : addTagNameInput.value })
+        body: JSON.stringify({ "name" : currentlyLoadedNote, "tag" : addTagInput.value })
     })
     .then(response => response.json())
     .then(data => {
@@ -196,6 +204,42 @@ function removeTag(tag){
     .then(response => response.json())
     .then(data => {
         loadTagsGUI();
+        alert(data);
+    })
+    .catch(error => console.error(error));
+}
+
+function noteSettingsGUI(){
+    if (!currentlyLoadedNote){
+        alert("No note loaded.");
+        return;
+    }
+
+    resetScreen();
+    popupContainer.style.display = "flex";
+    noteSettingsPopup.style.display = "flex";
+}
+
+function closeNoteSettingsGUI(){
+    resetScreen();
+}
+
+function deleteNote(){
+    if (!currentlyLoadedNote){
+        alert("No note loaded.");
+        return;
+    }
+
+    fetch('/deletenote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ "name" : currentlyLoadedNote })
+    })
+    .then(response => response.json())
+    .then(data => {
+        currentlyLoadedNote = "";
+        notepad.value = "";
+        resetScreen();
         alert(data);
     })
     .catch(error => console.error(error));
