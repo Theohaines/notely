@@ -7,57 +7,7 @@
     <link rel="stylesheet" href="/styles/global.css">
 </head>
 <body>
-    <div class="tool-bar">
-        <button onclick="start()"><img src="/media/icons/toolbar/home.svg" alt="go to the home menu"></button>
-        <div id="noteOnlyToolbar">
-            <button onclick="saveNote()"><img src="/media/icons/toolbar/save.svg" alt="save the currently selected note"></button> 
-            <button onclick="editTagsMenuGUI()"><img src="/media/icons/toolbar/edittags.svg" alt="edit tags for the currently selected note"></button> 
-        </div>
-    </div>
-
     <div class="main-container">
-        <textarea name="notepad" id="notepad" cols="30" rows="10" autofocus></textarea>
-
-        <div class="welcome-splash" id="welcomeSplash">
-            <h1>Welcome to Notely</h1>
-            <div class="welcome-splash-menu-options">
-                <div class="welcome-splash-button" onclick="createNewNoteGUI()">
-                    <h1>create new note</h1>
-                    <img src="/media/icons/notestackadd.svg" alt="">
-                </div>
-                <div class="welcome-splash-button" onclick="enableNoteView()">
-                    <h1>view existing notes</h1>
-                    <img src="/media/icons/notestack.svg" alt="">
-                </div>
-            </div>
-        </div>
-
-        <div class="create-note-menu" id="createNoteMenu">
-            <h1 style="color: white;">create new note</h1>
-            <input class="text-input" id="newNoteNameInput" type="text" placeholder="enter a title for this note... (max 60, min 3)">
-            <button class="menu-button" onclick="createNewNote()">create note</button>
-        </div>
-
-        <div class="note-view" id="noteView" style="display: none;">
-            <div class="tool-bar">
-                <input id="searchByNameInput" type="text" placeholder="search by name...">
-                <input id="searchByTagInput" type="text" placeholder="search by tag...">
-            </div>
-            <div class="note-view-container" id="noteViewContainer">
-            </div>
-        </div>
-
-        <div class="edit-tags-menu" id="editTagsMenu">
-            <div class="edit-tags-menu-tag-container" id="editTagsMenuTagContainer">
-                <div class="tag-menu-tag">
-                    <h4>TAG NAME</h4>
-                    <img src="/media/icons/tagmenus/deletetag.svg" alt="">
-                </div>
-            </div>
-            <input type="text" id="addTagNameInput" placeholder="add new tag...">
-            <button onclick="addTag()">add</button>
-            <button onclick="closeEditTagsMenuGUI()">close editor</button>
-        </div>
     </div>
 </body>
 <script src="/scripts/main.js"></script>
