@@ -120,8 +120,10 @@ app.use('/login', async function (req, res){
     res.json(message);
 });
 
-app.use('/logout', async function (req, res){
+app.use('/logout', requireAuth, async function (req, res){
     var message = "logged out";
+
+    req.session.destroy();
 
     res.json(message);
 });

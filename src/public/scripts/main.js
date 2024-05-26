@@ -328,4 +328,19 @@ function submitLoginRequest(){
     .catch(error => console.error(error));
 }
 
+function submitLogoutRequest(){
+    fetch('/logout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data);
+
+        resetScreen();
+        loggedin = false;
+    })
+    .catch(error => console.error(error));
+}
+
 start();
