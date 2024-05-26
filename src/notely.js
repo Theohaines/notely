@@ -65,8 +65,8 @@ app.use('/savenote', async function (req, res){
     res.json({"message" : message});
 });
 
-app.use('/listnotes', async function (req, res){
-    var notes = await listnotes.listNotes(req.body.name, req.body.tag);
+app.use('/listnotes', requireAuth, async function (req, res){
+    var notes = await listnotes.listNotes(req.session.authtoken, req.body.tag);
 
     res.json({notes});
 });
