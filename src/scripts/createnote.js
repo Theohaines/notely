@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
+const sqlite3 = require('sqlite3');
+
 const filenameRexex = /^[a-zA-Z0-9._-]]]+$/;
  
 // THIS TEMPLATE CAN BE EDITED TO ALTER THE NOTES SYS
@@ -88,7 +90,8 @@ async function validatedNoteNotExist(name){
 }
 
 async function createNoteWithFS(name, loggedInUser){
-    var filepath = path.resolve('src/notes/' + crypto.randomUUID() + ".json");
+    const fileUUID = crypto.randomUUID();
+    var filepath = path.resolve('src/notes/' + fileUUID + ".json");
 
     if(loggedInUser){
         templateNote = JSON.parse(templateNote);
@@ -104,9 +107,9 @@ async function createNoteWithFS(name, loggedInUser){
             if (err){
                 console.log(err);
                 resolve(false);
-            } else {
-                resolve(true);
             }
+
+            resolve(true)
         });
     });
 
@@ -121,6 +124,23 @@ async function createNoteWithFS(name, loggedInUser){
     }
 
     `
+
+    if (!validated){
+        return false;
+    }
+
+    validated = await new Promise ((resolve, reject) => {
+        var db = new sqlite3.Database(path.resolve('src/databases/notely.sqlite'));
+
+        db.run('INSERT INTO notes (N_UUID, N_OWNER) VALUES (?, ?)', [fileUUID, loggedInUser], (err, row) => {
+            if(err){
+                console.log(err);
+                resolve(false)
+            }
+
+            resolve(true);
+        });
+    });
 
     if (!validated){
         return false;

@@ -30,7 +30,7 @@ app.use(session({
 }));
 
 const requireAuth = (req, res, next) => {
-    if (req.session.authtoken) {
+    if (req.session.authtoken || process.env.NOACCOUNT == "true") {
         next();
     } else {
         message = "Account is required when using the offical NOTELY site!";
@@ -66,7 +66,7 @@ app.use('/savenote', async function (req, res){
 });
 
 app.use('/listnotes', requireAuth, async function (req, res){
-    var notes = await listnotes.listNotes(req.session.authtoken, req.body.tag);
+    var notes = await listnotes.listNotes(req.session.authtoken);
 
     res.json({notes});
 });
@@ -112,6 +112,11 @@ app.use('/signup', async function (req, res){
 });
 
 app.use('/login', async function (req, res){
+    if (process.env.NOACCOUNT == "true"){
+        req.session.authtoken = "local";
+        res.json({"message" : "Logged in"})
+    }
+
     var message = await login.login(req.body.email, req.body.password);
 
     if (message == "Account Loggedin"){
