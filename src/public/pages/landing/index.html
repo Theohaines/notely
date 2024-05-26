@@ -11,6 +11,7 @@
         
         <div class="notes-sidebar" id="notesSidebar">
             <h1>Notely</h1>
+            <button onclick="accountGUI()">login / signup<img src="/media/icons/account/accountcircle.svg" alt=""></button>
             <button onclick="createNewNoteGUI()">create note<img src="/media/icons/notestackadd.svg" alt=""></button>
             <input type="text" id="notesSidebarSearch" placeholder="search...">
             <div class="notes-sidebar-container" id="notesSidebarContainer">
@@ -49,6 +50,26 @@
             <h1>note settings</h1>
             <button onclick="deleteNote()">delete note</button>
             <button onclick="closeNoteSettingsGUI()">close</button>
+        </div>
+
+        <div class="popup" id="accountMenu">    
+            <div id="loginMenu" class="accounts-menu">
+                <h1>account login</h1>
+                <input type="text" placeholder="email..." autocomplete="email">
+                <input type="text" placeholder="password..." autocomplete="new-password">
+                <button>submit</button>
+                <button>signup instead </button>
+            </div>
+            <div id="signupMenu" class="accounts-menu">
+                <h1>account signup</h1>
+                <input type="text" placeholder="email..." autocomplete="email">
+                <input type="text" placeholder="password..." autocomplete="current-password">
+                <button>submit</button>
+                <button>login instead</button>
+            </div>
+            <div id="accountSettingsMenu" class="accounts-menu">
+                <h1>account settings</h1>
+            </div>
         </div>
     </div>
 </body>

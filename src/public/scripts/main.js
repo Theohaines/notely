@@ -1,17 +1,30 @@
 const notepad = document.getElementById('notepad');
 
+//Popups
 const popupContainer = document.getElementById('popupContainer');
 const createNewNotePopup = document.getElementById('createNewNotePopup');
 const noteTagsPopup = document.getElementById('noteTagsPopup');
 const noteSettingsPopup = document.getElementById('noteSettingsPopup');
 
+//Account
+const accountMenu = document.getElementById("accountMenu");
+const loginMenu = document.getElementById("loginMenu");
+const signupMenu = document.getElementById("signupMenu");
+const accountSettingsMenu = document.getElementById("accountSettingsMenu");
+
 var currentlyLoadedNote = "";
+var loggedin = false;
 
 function resetScreen(){
     popupContainer.style.display = "none";
     createNewNotePopup.style.display = "none";
     noteTagsPopup.style.display = "none";
     noteSettingsPopup.style.display = "none";
+
+    accountMenu.style.display = "none";
+    loginMenu.style.display = "none";
+    signupMenu.style.display = "none";
+    accountSettingsMenu.style.display = "none";
 
     loadNotes();
 }
@@ -243,6 +256,16 @@ function deleteNote(){
         alert(data);
     })
     .catch(error => console.error(error));
+}
+
+function accountGUI(){
+    resetScreen();
+    popupContainer.style.display = "flex";
+    accountMenu.style.display = "flex";
+
+    if(!loggedin){
+        loginMenu.style.display = "flex";
+    }
 }
 
 start();

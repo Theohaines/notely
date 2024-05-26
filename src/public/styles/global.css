@@ -216,6 +216,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    row-gap: 5px;
 }
 
 .tag-menu-tag {
@@ -230,4 +232,14 @@ body {
     column-gap: 10px;
     justify-content: space-between;
     align-items: center;
+}
+
+.accounts-menu {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 5px;
 }

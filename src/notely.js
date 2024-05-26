@@ -2,15 +2,20 @@ const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv').config();
 
+//notes
 const createnote = require('./scripts/createnote.js');
 const savenote = require('./scripts/savenote.js');
 const listnotes = require('./scripts/listnotes.js');
 const loadnote = require('./scripts/loadnote.js');
 const deletenote = require('./scripts/deletenote.js');
 
+//tags
 const addtag = require('./scripts/tags/addtag.js');
 const loadtags = require('./scripts/tags/loadtags.js');
 const removetag = require('./scripts/tags/removetag.js');
+
+//accounts
+
 
 const app = express();
 app.use(express.json());
@@ -82,3 +87,9 @@ app.use('/removetag', async function (req, res){
 });
 
 //ACCOUNT
+
+app.use('/login', async function (req, res){
+    var message = await removetag.removeTag(req.body.email, req.body.password);
+
+    res.json(message);
+});
