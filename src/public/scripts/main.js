@@ -267,6 +267,8 @@ function accountGUI(){
 
     if(!loggedin){
         loginMenu.style.display = "flex";
+    } else {
+        accountSettingsMenu.style.display = "flex";
     }
 }
 
@@ -298,6 +300,29 @@ function submitSignupRequest(){
 
         if (data == "Account created!" || data == "Account with this email already exists"){
             toggleLoginSignupGUI();
+        }
+    })
+    .catch(error => console.error(error));
+}
+
+function submitLoginRequest(){
+    const loginMenuEmailInput = document.getElementById('loginMenuEmailInput');
+    const loginMenuPasswordInput = document.getElementById('loginMenuPasswordInput');
+
+    fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ "email" : loginMenuEmailInput.value, "password" : loginMenuPasswordInput.value })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data);
+
+        if (data == "Account with this email already exists"){
+            toggleLoginSignupGUI();
+        } else if (data == "Account Loggedin"){
+            resetScreen();
+            loggedin = true;
         }
     })
     .catch(error => console.error(error));

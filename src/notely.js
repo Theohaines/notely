@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const path = require('path');
 const dotenv = require('dotenv').config();
 
@@ -21,6 +22,20 @@ const login = require('./scripts/account/login.js');
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(session({
+    secret: process.env.SESSIONSECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
+
+const requireAuth = (req, res, next) => {
+    if (req.session.authtoken) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+}
 
 app.use('/', express.static(path.resolve('src/public')));
 app.use('/media', express.static(path.resolve('src/public/media')));
@@ -96,7 +111,17 @@ app.use('/signup', async function (req, res){
 });
 
 app.use('/login', async function (req, res){
-    var message = await removetag.removeTag(req.body.email, req.body.password);
+    var message = await login.login(req.body.email, req.body.password);
+
+    if (message = "Account Loggedin"){
+        req.session.authtoken = req.body.email;
+    }
+
+    res.json(message);
+});
+
+app.use('/logout', async function (req, res){
+    var message = "logged out";
 
     res.json(message);
 });
