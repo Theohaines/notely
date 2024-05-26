@@ -59,7 +59,7 @@ app.use('/createnote', requireAuth, async function (req, res){
     res.json({"message" : message});
 });
 
-app.use('/savenote', async function (req, res){
+app.use('/savenote', requireAuth, async function (req, res){
     var message = await savenote.saveNote(req.body.name, req.body.body);
 
     res.json({"message" : message});
@@ -71,7 +71,7 @@ app.use('/listnotes', requireAuth, async function (req, res){
     res.json({notes});
 });
 
-app.use('/loadnote', async function (req, res){
+app.use('/loadnote', requireAuth, async function (req, res){
     var note = await loadnote.loadNote(req.body.name);
 
     res.json(note);
