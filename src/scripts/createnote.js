@@ -9,7 +9,8 @@ const templateNote = `
     "body" : "",
     "tags" : [
 
-    ]
+    ],
+    "owner" : "local"
 }
 
 `

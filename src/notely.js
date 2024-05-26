@@ -15,7 +15,8 @@ const loadtags = require('./scripts/tags/loadtags.js');
 const removetag = require('./scripts/tags/removetag.js');
 
 //accounts
-
+const signup = require('./scripts/account/signup.js');
+const login = require('./scripts/account/login.js');
 
 const app = express();
 app.use(express.json());
@@ -87,6 +88,12 @@ app.use('/removetag', async function (req, res){
 });
 
 //ACCOUNT
+
+app.use('/signup', async function (req, res){
+    var message = await signup.signup(req.body.email, req.body.password);
+
+    res.json(message);
+});
 
 app.use('/login', async function (req, res){
     var message = await removetag.removeTag(req.body.email, req.body.password);

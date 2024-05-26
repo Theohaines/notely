@@ -3,7 +3,9 @@
     "start": "nodemon src/notely.js --ext js,json,html,css,env"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7"
   }
 }

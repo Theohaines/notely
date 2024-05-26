@@ -258,6 +258,8 @@ function deleteNote(){
     .catch(error => console.error(error));
 }
 
+//Account stuff
+
 function accountGUI(){
     resetScreen();
     popupContainer.style.display = "flex";
@@ -266,6 +268,35 @@ function accountGUI(){
     if(!loggedin){
         loginMenu.style.display = "flex";
     }
+}
+
+function toggleLoginSignupGUI(){
+    popupContainer.style.display = "flex";
+    accountMenu.style.display = "flex";
+
+    if (loginMenu.style.display == "flex"){
+        loginMenu.style.display = "none";
+        signupMenu.style.display = "flex";
+    } else {
+        loginMenu.style.display = "flex"
+        signupMenu.style.display = "none";
+    }
+}
+
+function submitSignupRequest(){
+    const signupEmailInput = document.getElementById('signupEmailInput');
+    const signupPasswordInput = document.getElementById('signupPasswordInput');
+
+    fetch('/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ "email" : signupEmailInput.value, "password" : signupPasswordInput.value })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data);
+    })
+    .catch(error => console.error(error));
 }
 
 start();

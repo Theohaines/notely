@@ -164,7 +164,7 @@ body {
     background-color: var(--opacityfilter);
 }
 
-.appear-over-everything-main-container input[type="text"] {
+.appear-over-everything-main-container input[type="text"],[type="password"] {
     width: 60%;
     height: 30px;
 
@@ -175,7 +175,7 @@ body {
     border: var(--lightgrey) 2px solid;
 }
 
-.appear-over-everything-main-container input[type="text"]:focus {
+.appear-over-everything-main-container input[type="text"],[type="password"]:focus {
     border: var(--accentblue) 2px solid;
 }
 
