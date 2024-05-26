@@ -294,6 +294,7 @@ function submitSignupRequest(){
     })
     .then(response => response.json())
     .then(data => {
+        toggleLoginSignupGUI();
         alert(data);
     })
     .catch(error => console.error(error));
