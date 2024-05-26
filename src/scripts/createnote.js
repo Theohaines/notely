@@ -1,22 +1,24 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const filenameRexex = /^[a-zA-Z0-9._-]]]+$/;
  
 // THIS TEMPLATE CAN BE EDITED TO ALTER THE NOTES SYS
-const templateNote = `
+var templateNote = `
 {
     "body" : "",
     "tags" : [
 
     ],
-    "owner" : "local"
+    "owner" : "local",
+    "name" : ""
 }
 
 `
 
-async function createNote(name){
-    var validatedName = await validateNoteName(name);
+async function createNote(name, loggedInUser){
+    var validatedName = await validateNoteName(name, loggedInUser);
 
     if (!validatedName){
         return "Illegal note name.";
@@ -28,7 +30,7 @@ async function createNote(name){
         return "Note with same name already exists.";
     }
 
-    var validateNoteCreated = await createNoteWithFS(name);
+    var validateNoteCreated = await createNoteWithFS(name, loggedInUser);
 
     if (!validateNoteCreated){
         return "Note could not be created, if locally hosted check the server console output.";
@@ -85,8 +87,17 @@ async function validatedNoteNotExist(name){
     }
 }
 
-async function createNoteWithFS(name){
-    var filepath = path.resolve('src/notes/' + name + ".json");
+async function createNoteWithFS(name, loggedInUser){
+    var filepath = path.resolve('src/notes/' + crypto.randomUUID() + ".json");
+
+    if(loggedInUser){
+        templateNote = JSON.parse(templateNote);
+
+        templateNote.owner = loggedInUser;
+        templateNote.name = name;
+
+        templateNote = JSON.stringify(templateNote);
+    }
 
     var validated = await new Promise ((resolve, reject) => {
         fs.writeFile(filepath, templateNote, 'utf8', (err) => {
@@ -98,6 +109,18 @@ async function createNoteWithFS(name){
             }
         });
     });
+
+    templateNote = `
+    {
+        "body" : "",
+        "tags" : [
+    
+        ],
+        "owner" : "local",
+        "name" : ""
+    }
+
+    `
 
     if (!validated){
         return false;

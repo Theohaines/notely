@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "nodemon src/notely.js --ext js,json,html,css,env"
+    "start": "nodemon src/notely.js --ext js,html,css,env"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

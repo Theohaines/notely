@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(session({
     secret: process.env.SESSIONSECRET,
-    resave: false,
+    resave: true,
     saveUninitialized: true,
     cookie: { secure: false }
 }));
@@ -33,7 +33,8 @@ const requireAuth = (req, res, next) => {
     if (req.session.authtoken) {
         next();
     } else {
-        res.redirect('/login');
+        message = "Account is required when using the offical NOTELY site!";
+        res.send({"message" : message});
     }
 }
 
@@ -52,8 +53,8 @@ app.listen(process.env.PORT, () => {
     console.log("listening on", process.env.PORT);
 });
 
-app.use('/createnote', async function (req, res){
-    var message = await createnote.createNote(req.body.name);
+app.use('/createnote', requireAuth, async function (req, res){
+    var message = await createnote.createNote(req.body.name, req.session.authtoken);
 
     res.json({"message" : message});
 });
@@ -113,7 +114,7 @@ app.use('/signup', async function (req, res){
 app.use('/login', async function (req, res){
     var message = await login.login(req.body.email, req.body.password);
 
-    if (message = "Account Loggedin"){
+    if (message == "Account Loggedin"){
         req.session.authtoken = req.body.email;
     }
 
