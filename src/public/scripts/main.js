@@ -294,8 +294,11 @@ function submitSignupRequest(){
     })
     .then(response => response.json())
     .then(data => {
-        toggleLoginSignupGUI();
         alert(data);
+
+        if (data == "Account created!" || data == "Account with this email already exists"){
+            toggleLoginSignupGUI();
+        }
     })
     .catch(error => console.error(error));
 }
