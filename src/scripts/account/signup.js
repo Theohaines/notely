@@ -10,33 +10,33 @@ async function signup(email, password){
     var emailNotExistsValidated = await valdateEmailDoesntExist(email);
 
     if (!emailNotExistsValidated){
-        return "Account with this email already exists";
+        return "E014";
     }
 
     var emailValidated = await validateEmail(email);
 
     if (!emailValidated){
-        return "Illegal email provided";
+        return "E015";
     }
 
     var passwordValidated = await validatePassword(password);
 
     if (!passwordValidated){
-        return "Illegal password provided";
+        return "E016";
     }
 
     var passwordHashValidated = await hashPassword(password);
 
     if(!passwordHashValidated){
-        return "Something went wrong! If locally hosted please check the server console.";
+        return "E017";
     }
 
     var accountAddedToDatabaseValidated = addAccountToDatabase(email, passwordHashValidated);
 
     if (!accountAddedToDatabaseValidated){
-        return "Something went wrong! If locally hosted please check the server console.";
+        return "E017";
     } else {
-        return "Account created!";
+        return "I007";
     }
 }
 

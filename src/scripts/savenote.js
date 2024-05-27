@@ -7,22 +7,22 @@ async function saveNote(account, UUID, body){
     var validateOwnership = await toolkit.validateOwnershipViaUUID(account, UUID);
 
     if (!validateOwnership){
-        return "You do not own the specified note!";
+        return "E004";
     }
 
     var validatedExists = await validatedNoteExists(UUID);
 
     if (!validatedExists){
-        return "no note with the specified name exists."
+        return "E005"
     }
 
     var validatedSaved = await saveNoteUsingFS(UUID, body);
 
     if (!validatedSaved){
-        return "note could not be saved. If running locally check the server console.";
+        return "E006";
     }
 
-    return "note saved.";
+    return "I002";
 }
 
 async function validatedNoteExists(UUID){

@@ -2,23 +2,25 @@ const fs = require('fs');
 const path = require('path');
 const sqlite3 = require('sqlite3');
 
+const toolkit = require('./reuseable/toolkit.js');
+
 async function loadNote(account, UUID){
     var validatedNoteOwnership = await validateNoteOwnership(account, UUID)
 
     if (!validatedNoteOwnership){
-        return "you don't own the specified note";
+        return await toolkit.transalateMessage("E004");
     }
 
     var validatedExists = await validatedNoteExists(UUID);
 
     if (!validatedExists){
-        return "no note with the specified name exists.";
+        return await toolkit.transalateMessage("E005");
     }
 
     var validateNoteLoaded = await loadNoteUsingFS(UUID);
 
     if (!validateNoteLoaded){
-        return "note could not be loaded.";
+        return await toolkit.transalateMessage("E007");
     }
 
     return validateNoteLoaded;

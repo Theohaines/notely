@@ -33,6 +33,8 @@ function start(){
     resetScreen();
 }
 
+//notes
+
 function createNewNoteGUI(){
     resetScreen();
     popupContainer.style.display = "flex";
@@ -49,7 +51,7 @@ function createNewNote(){
     })
     .then(response => response.json())
     .then(data => {
-        if (data.message == "ok"){
+        if (data.message == "I001: The note was created successfully."){
             resetScreen();
             currentlyLoadedNote = newNoteNameInput.value;
             newNoteNameInput.value = "";
@@ -62,7 +64,7 @@ function createNewNote(){
 
 function saveNote(){
     if (!currentlyLoadedNote){
-        alert("No note loaded.");
+        alert("W001: No note is currently loaded.");
         return;
     }
 
@@ -118,7 +120,7 @@ function loadNote(UUID){
     })
     .then(response => response.json())
     .then(data => {
-        if (data.note == "no note with the specified name exists." || data.note == "note could not be loaded."){
+        if (data.note == "E005: No note with the specified name exists." || data.note == "E007: The note could not be loaded. If you are running this instance of Notely locally please check the server console."){
             alert(data.note);
         } else {
             resetScreen();
@@ -133,11 +135,47 @@ function loadNote(UUID){
     .catch(error => console.error(error));
 }
 
-//TAGS
+function noteSettingsGUI(){
+    if (!currentlyLoadedNote){
+        alert("W001: No note is currently loaded.");
+        return;
+    }
+
+    resetScreen();
+    popupContainer.style.display = "flex";
+    noteSettingsPopup.style.display = "flex";
+}
+
+function closeNoteSettingsGUI(){
+    resetScreen();
+}
+
+function deleteNote(){
+    if (!currentlyLoadedNote){
+        alert("W001: No note is currently loaded.");
+        return;
+    }
+
+    fetch('/deletenote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ "UUID" : currentlyLoadedNote })
+    })
+    .then(response => response.json())
+    .then(data => {
+        currentlyLoadedNote = "";
+        notepad.value = "";
+        resetScreen();
+        alert(data);
+    })
+    .catch(error => console.error(error));
+}
+
+//tags
 
 async function tagsMenuGUI(){
     if (!currentlyLoadedNote){
-        alert("No note loaded.");
+        alert("W001: No note is currently loaded.");
         return;
     }
 
@@ -224,42 +262,6 @@ function removeTag(tag){
     .catch(error => console.error(error));
 }
 
-function noteSettingsGUI(){
-    if (!currentlyLoadedNote){
-        alert("No note loaded.");
-        return;
-    }
-
-    resetScreen();
-    popupContainer.style.display = "flex";
-    noteSettingsPopup.style.display = "flex";
-}
-
-function closeNoteSettingsGUI(){
-    resetScreen();
-}
-
-function deleteNote(){
-    if (!currentlyLoadedNote){
-        alert("No note loaded.");
-        return;
-    }
-
-    fetch('/deletenote', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ "UUID" : currentlyLoadedNote })
-    })
-    .then(response => response.json())
-    .then(data => {
-        currentlyLoadedNote = "";
-        notepad.value = "";
-        resetScreen();
-        alert(data);
-    })
-    .catch(error => console.error(error));
-}
-
 //Account stuff
 
 function accountGUI(){
@@ -300,7 +302,7 @@ function submitSignupRequest(){
     .then(data => {
         alert(data);
 
-        if (data == "Account created!" || data == "Account with this email already exists"){
+        if (data == "I008: Account was logged out successfully. We reccomend closing this tab." || data == "E014: Account with this email already exists. Please login instead."){
             toggleLoginSignupGUI();
         }
     })
@@ -320,9 +322,9 @@ function submitLoginRequest(){
     .then(data => {
         alert(data);
 
-        if (data == "Account with this email already exists"){
+        if (data == "E012: Account with this email does not exist. Please create a new account."){
             toggleLoginSignupGUI();
-        } else if (data == "Account Loggedin"){
+        } else if (data == "I006: Account was logged in successfully."){
             resetScreen();
             loggedin = true;
         }

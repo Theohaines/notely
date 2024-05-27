@@ -7,16 +7,16 @@ async function removeTag(account, UUID, tag){
     var validatedExists = await validatedNoteExists(UUID);
 
     if (!validatedExists){
-        return "no note with the specified name exists."
+        return "E005"
     }
 
     var validatedRemoveTag = await removeTagUsingFS(UUID, tag);
 
     if (!validatedRemoveTag){
-        return "Tag could not be removed."
+        return "E011"
     }
 
-    return "Tag removed."
+    return "I005"
 }
 
 async function validatedNoteExists(UUID){

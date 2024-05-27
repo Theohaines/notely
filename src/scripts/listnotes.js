@@ -2,11 +2,13 @@ const fs = require('fs');
 const path = require('path');
 const sqlite3 = require('sqlite3');
 
+const toolkit = require('./reuseable/toolkit.js');
+
 async function listNotes(account){
     var validatedFilesSearchByAccount = await composeNotesByAllAccount(account);
 
     if (!validatedFilesSearchByAccount){
-        return "couldn't load notes. if locally hosted check server console";
+        return await toolkit.transalateMessage("E019");
     }
 
     return validatedFilesSearchByAccount;

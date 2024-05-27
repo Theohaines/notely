@@ -7,22 +7,22 @@ async function addTag(account, UUID, tag){
     var validateOwnership = await toolkit.validateOwnershipViaUUID(account, UUID);
 
     if (!validateOwnership){
-        return "You do not own the specified note!";
+        return "E004";
     }
 
     var validatedExists = await validatedNoteExists(UUID);
 
     if (!validatedExists){
-        return "no note with the specified name exists."
+        return "E005"
     }
 
     var validatedAddTag = await addTagUsingFS(UUID, tag);
 
     if (!validatedAddTag){
-        return "Tag could not be added."
+        return "E009"
     }
 
-    return "Tag added."
+    return "I004"
 }
 
 async function validatedNoteExists(UUID){

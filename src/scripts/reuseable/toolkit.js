@@ -1,6 +1,8 @@
 const sqlite3 = require('sqlite3');
 const path = require('path');
 
+const messageList = require('../../json/messagelist.json');
+
 async function validateOwnershipViaUUID(account, UUID){
     var validated = await new Promise ((resolve, reject) => {
         var db = new sqlite3.Database(path.resolve('src/databases/notely.sqlite'));
@@ -25,4 +27,16 @@ async function validateOwnershipViaUUID(account, UUID){
     }
 }
 
-module.exports = { validateOwnershipViaUUID }
+async function transalateMessage(code){
+    var message = await new Promise ((resolve, reject) => {
+        for (var message in messageList){
+            if (message == code){
+                resolve(messageList[message]);
+            }
+        }
+    })
+
+    return message;
+}
+
+module.exports = { validateOwnershipViaUUID, transalateMessage }
