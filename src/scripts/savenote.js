@@ -1,14 +1,22 @@
 const fs = require('fs');
 const path = require('path');
 
-async function saveNote(name, body){
-    var validatedExists = await validatedNoteExists(name);
+const toolkit = require('./reuseable/toolkit.js');
+
+async function saveNote(account, UUID, body){
+    var validateOwnership = await toolkit.validateOwnershipViaUUID(account, UUID);
+
+    if (!validateOwnership){
+        return "You do not own the specified note!";
+    }
+
+    var validatedExists = await validatedNoteExists(UUID);
 
     if (!validatedExists){
         return "no note with the specified name exists."
     }
 
-    var validatedSaved = await saveNoteUsingFS(name, body);
+    var validatedSaved = await saveNoteUsingFS(UUID, body);
 
     if (!validatedSaved){
         return "note could not be saved. If running locally check the server console.";
@@ -17,11 +25,11 @@ async function saveNote(name, body){
     return "note saved.";
 }
 
-async function validatedNoteExists(name){
+async function validatedNoteExists(UUID){
     var filepath = path.resolve('src/notes');
 
     var validated = await new Promise ((resolve, reject) => {
-        fs.readFile(filepath + "/" + name + ".json", 'utf8', (err, data) => {
+        fs.readFile(filepath + "/" + UUID + ".json", 'utf8', (err, data) => {
             if (err) {
                 resolve(false);
             } else {
@@ -37,8 +45,8 @@ async function validatedNoteExists(name){
     }
 }
 
-async function saveNoteUsingFS(name, body){
-    var filepath = path.resolve('src/notes/' + name + '.json');
+async function saveNoteUsingFS(UUID, body){
+    var filepath = path.resolve('src/notes/' + UUID + '.json');
 
     var validated = await new Promise ((resolve, reject) => {
         fs.readFile(filepath, 'utf8', (err, data) => {

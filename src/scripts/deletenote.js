@@ -1,14 +1,21 @@
 const fs = require('fs');
 const path = require('path');
+const sqlite3 = require('sqlite3');
 
-async function deleteNote(name){
-    var validatedExists = await validatedNoteExists(name);
+async function deleteNote(account, UUID){
+    var validatedNoteOwnership = await validateNoteOwnership(account, UUID)
+
+    if (!validatedNoteOwnership){
+        return "you don't own the specified note";
+    }
+
+    var validatedExists = await validatedNoteExists(UUID);
 
     if (!validatedExists){
         return "no note with the specified name exists."
     }
 
-    var validatedSaved = await deleteNoteUsingFS(name);
+    var validatedSaved = await deleteNoteUsingFS(UUID);
 
     if (!validatedSaved){
         return "note could not be deleted. If running locally check the server console.";
@@ -17,11 +24,35 @@ async function deleteNote(name){
     return "note deleted.";
 }
 
-async function validatedNoteExists(name){
+async function validateNoteOwnership(account, UUID){
+    var validated = await new Promise ((resolve, reject) => {
+        var db = new sqlite3.Database(path.resolve('src/databases/notely.sqlite'));
+
+        db.get('SELECT * FROM notes WHERE N_UUID = ?', [UUID], (err, row) => {
+            if (err){
+                console.log(err);
+            }
+
+            if (row.N_OWNER == account){
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        });
+    });
+
+    if (!validated){
+        return false;
+    } else {
+        return true;
+    }
+}
+
+async function validatedNoteExists(UUID){
     var filepath = path.resolve('src/notes');
 
     var validated = await new Promise ((resolve, reject) => {
-        fs.readFile(filepath + "/" + name + ".json", 'utf8', (err, data) => {
+        fs.readFile(filepath + "/" + UUID + ".json", 'utf8', (err, data) => {
             if (err) {
                 resolve(false);
             } else {
@@ -37,10 +68,27 @@ async function validatedNoteExists(name){
     }
 }
 
-async function deleteNoteUsingFS(name){
-    var filepath = path.resolve('src/notes/' + name + '.json');
+async function deleteNoteUsingFS(UUID){
+    var filepath = path.resolve('src/notes/' + UUID + '.json');
 
     var validated = await new Promise ((resolve, reject) => {
+        var db = new sqlite3.Database(path.resolve('src/databases/notely.sqlite'));
+
+        db.get('DELETE FROM notes WHERE N_UUID = ?', [UUID], (err, row) => {
+            if (err){
+                console.log(err);
+                resolve(false);
+            }
+
+            resolve(true);
+        });
+    });
+
+    if (!validated){
+        return false;
+    }
+
+    validated = await new Promise ((resolve, reject) => {
         fs.unlink(filepath, (err) => {
             if (err){
                 resolve(false);
