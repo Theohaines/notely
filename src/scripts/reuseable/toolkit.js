@@ -1,7 +1,28 @@
 const sqlite3 = require('sqlite3');
 const path = require('path');
+const fs = require('fs');
 
 const messageList = require('../../json/messagelist.json');
+
+async function validatedNoteExists(UUID){
+    var filepath = path.resolve('src/notes');
+
+    var validated = await new Promise ((resolve, reject) => {
+        fs.readFile(filepath + "/" + UUID + ".json", 'utf8', (err, data) => {
+            if (err) {
+                resolve(false);
+            } else {
+                resolve(true);
+            }
+        })
+    });
+
+    if (!validated){
+        return false;
+    } else {
+        return true;
+    }
+}
 
 async function validateOwnershipViaUUID(account, UUID){
     var validated = await new Promise ((resolve, reject) => {
@@ -39,4 +60,4 @@ async function transalateMessage(code){
     return message;
 }
 
-module.exports = { validateOwnershipViaUUID, transalateMessage }
+module.exports = { validateOwnershipViaUUID, transalateMessage, validatedNoteExists }

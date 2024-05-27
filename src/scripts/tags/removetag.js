@@ -4,7 +4,7 @@ const path = require('path');
 const toolkit = require('../reuseable/toolkit.js');
 
 async function removeTag(account, UUID, tag){
-    var validatedExists = await validatedNoteExists(UUID);
+    var validatedExists = await toolkit.validatedNoteExists(UUID);
 
     if (!validatedExists){
         return "E005"
@@ -17,26 +17,6 @@ async function removeTag(account, UUID, tag){
     }
 
     return "I005"
-}
-
-async function validatedNoteExists(UUID){
-    var filepath = path.resolve('src/notes');
-
-    var validated = await new Promise ((resolve, reject) => {
-        fs.readFile(filepath + "/" + UUID + ".json", 'utf8', (err, data) => {
-            if (err) {
-                resolve(false);
-            } else {
-                resolve(true);
-            }
-        })
-    });
-
-    if (!validated){
-        return false;
-    } else {
-        return true;
-    }
 }
 
 async function removeTagUsingFS(UUID, tag){
