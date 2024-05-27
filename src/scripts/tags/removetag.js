@@ -1,14 +1,16 @@
 const fs = require('fs');
 const path = require('path');
 
-async function removeTag(name, tag){
-    var validatedExists = await validatedNoteExists(name);
+const toolkit = require('../reuseable/toolkit.js');
+
+async function removeTag(account, UUID, tag){
+    var validatedExists = await validatedNoteExists(UUID);
 
     if (!validatedExists){
         return "no note with the specified name exists."
     }
 
-    var validatedRemoveTag = await removeTagUsingFS(name, tag);
+    var validatedRemoveTag = await removeTagUsingFS(UUID, tag);
 
     if (!validatedRemoveTag){
         return "Tag could not be removed."
@@ -17,11 +19,11 @@ async function removeTag(name, tag){
     return "Tag removed."
 }
 
-async function validatedNoteExists(name){
+async function validatedNoteExists(UUID){
     var filepath = path.resolve('src/notes');
 
     var validated = await new Promise ((resolve, reject) => {
-        fs.readFile(filepath + "/" + name + ".json", 'utf8', (err, data) => {
+        fs.readFile(filepath + "/" + UUID + ".json", 'utf8', (err, data) => {
             if (err) {
                 resolve(false);
             } else {
@@ -37,8 +39,8 @@ async function validatedNoteExists(name){
     }
 }
 
-async function removeTagUsingFS(name, tag){
-    var filepath = path.resolve('src/notes/' + name + '.json');
+async function removeTagUsingFS(UUID, tag){
+    var filepath = path.resolve('src/notes/' + UUID + '.json');
 
     var validated = await new Promise ((resolve, reject) => {
         var data = fs.readFileSync(filepath, 'utf8');

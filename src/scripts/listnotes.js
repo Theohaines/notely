@@ -1,25 +1,28 @@
 const fs = require('fs');
 const path = require('path');
+const sqlite3 = require('sqlite3');
 
-async function listNotes(name, tag){
-    var validatedFilesSearch = await composeNotesByAll();
+async function listNotes(account){
+    var validatedFilesSearchByAccount = await composeNotesByAllAccount(account);
 
-    if (!validatedFilesSearch){
+    if (!validatedFilesSearchByAccount){
         return "couldn't load notes. if locally hosted check server console";
     }
 
-    return validatedFilesSearch;
+    return validatedFilesSearchByAccount;
 }
 
-async function listNotesByAll(){
+async function listNotesByAllAccount(account){
     var validated = await new Promise ((resolve, reject) => {
+        var db = new sqlite3.Database(path.resolve('src/databases/notely.sqlite'));
 
-        fs.readdir(path.resolve('src/notes/'), (err, files) => {
-            if (err){
+        db.all('SELECT N_UUID FROM notes WHERE N_OWNER = ?', [account], (err, rows) => {
+            if(err){
+                console.log(err);
                 resolve(false);
             }
 
-            resolve(files);
+            resolve(rows);
         });
     })
 
@@ -30,16 +33,16 @@ async function listNotesByAll(){
     }
 }
 
-async function composeNotesByAll(){
-    const files = await listNotesByAll();
+async function composeNotesByAllAccount(account){
+    const files = await listNotesByAllAccount(account);
     var composedNotes = [];
 
     var validated = await new Promise((resolve, reject) => {
         files.forEach(file => {
-            var data = fs.readFileSync(path.resolve('src/notes/' + file), 'utf-8');
+            var data = fs.readFileSync(path.resolve('src/notes/' + file.N_UUID + ".json"), 'utf-8');
 
             var parsedJSON = JSON.parse(data);
-            composedNotes.push([file.replace(".json", ""), parsedJSON.body]);
+            composedNotes.push([parsedJSON.name, parsedJSON.body, file.N_UUID]);
         });
 
         resolve(true)
@@ -51,5 +54,7 @@ async function composeNotesByAll(){
         return composedNotes;
     }
 }
+
+
 
 module.exports = { listNotes }
