@@ -246,7 +246,7 @@ function deleteNote(){
     fetch('/deletenote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ "name" : currentlyLoadedNote })
+        body: JSON.stringify({ "UUID" : currentlyLoadedNote })
     })
     .then(response => response.json())
     .then(data => {

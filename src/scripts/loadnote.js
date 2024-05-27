@@ -73,9 +73,7 @@ async function loadNoteUsingFS(UUID){
         fs.readFile(path.resolve('src/notes/' + UUID + '.json'), 'utf-8', (err, data) => {
             if (err){
                 resolve(false);
-            }    
-
-            console.log(data)
+            }
 
             resolve(data);
         });

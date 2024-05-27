@@ -77,8 +77,8 @@ app.use('/loadnote', requireAuth, async function (req, res){
     res.json(note);
 });
 
-app.use('/deletenote', async function (req, res){
-    var message = await deletenote.deleteNote(req.body.name);
+app.use('/deletenote', requireAuth, async function (req, res){
+    var message = await deletenote.deleteNote(req.session.authtoken, req.body.UUID);
 
     res.json(message);
 });
