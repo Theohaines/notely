@@ -4,7 +4,7 @@ const path = require('path');
 const toolkit = require('../reuseable/toolkit.js');
 
 async function loadTags(name){
-    var validatedExists = await validatedNoteExists(name);
+    var validatedExists = await toolkit.validatedNoteExists(name);
 
     if (!validatedExists){
         return await toolkit.transalateMessage("E005");
@@ -17,26 +17,6 @@ async function loadTags(name){
     }
 
     return tags;
-}
-
-async function validatedNoteExists(name){
-    var filepath = path.resolve('src/notes');
-
-    var validated = await new Promise ((resolve, reject) => {
-        fs.readFile(filepath + "/" + name + ".json", 'utf8', (err, data) => {
-            if (err) {
-                resolve(false);
-            } else {
-                resolve(true);
-            }
-        })
-    });
-
-    if (!validated){
-        return false;
-    } else {
-        return true;
-    }
 }
 
 async function loadTagsUsingFS(name){
