@@ -72,7 +72,7 @@ app.use('/listnotes', requireAuth, async function (req, res){
 });
 
 app.use('/loadnote', requireAuth, async function (req, res){
-    var note = await loadnote.loadNote(req.body.name);
+    var note = await loadnote.loadNote(req.session.authtoken, req.body.UUID);
 
     res.json(note);
 });

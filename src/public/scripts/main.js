@@ -101,7 +101,7 @@ function populateNotesSidebar(data){
     for (var note of data.notes){
         var noteViewNote = document.createElement("div");
         noteViewNote.className = "sidebar-note";
-        noteViewNote.setAttribute("onclick", "loadNote('"+note[0]+"')");
+        noteViewNote.setAttribute("onclick", "loadNote('"+note[2]+"')");
         notesSidebarContainer.appendChild(noteViewNote)
 
         var noteViewNoteName = document.createElement("h3");
@@ -110,11 +110,11 @@ function populateNotesSidebar(data){
     }
 }
 
-function loadNote(name){
+function loadNote(UUID){
     fetch('/loadnote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ "name" : name})
+        body: JSON.stringify({ "UUID" : UUID})
     })
     .then(response => response.json())
     .then(data => {
@@ -127,7 +127,7 @@ function loadNote(name){
             data = JSON.parse(data)
 
             notepad.value = data.body;
-            currentlyLoadedNote = name;
+            currentlyLoadedNote = UUID;
         }
     })
     .catch(error => console.error(error));
