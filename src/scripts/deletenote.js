@@ -6,22 +6,22 @@ async function deleteNote(account, UUID){
     var validatedNoteOwnership = await validateNoteOwnership(account, UUID)
 
     if (!validatedNoteOwnership){
-        return "you don't own the specified note";
+        return "E004";
     }
 
     var validatedExists = await validatedNoteExists(UUID);
 
     if (!validatedExists){
-        return "no note with the specified name exists."
+        return "E005"
     }
 
     var validatedSaved = await deleteNoteUsingFS(UUID);
 
     if (!validatedSaved){
-        return "note could not be deleted. If running locally check the server console.";
+        return "E008";
     }
 
-    return "note deleted.";
+    return "I003";
 }
 
 async function validateNoteOwnership(account, UUID){

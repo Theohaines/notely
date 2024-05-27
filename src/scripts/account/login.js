@@ -6,15 +6,15 @@ async function login(email, password){
     var emailExistsValidated = await valdateEmailExists(email);
 
     if (!emailExistsValidated){
-        return "Account with this email doesn't exist";
+        return "E012";
     }
 
     var validateLoggedIn = await loginAccount(email, password);
 
     if (!validateLoggedIn){
-        return "Login unsuccessful";
+        return "E013";
     } else {
-        return "Account Loggedin";
+        return "I006";
     }
 }
 

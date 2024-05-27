@@ -1,17 +1,19 @@
 const fs = require('fs');
 const path = require('path');
 
+const toolkit = require('../reuseable/toolkit.js');
+
 async function loadTags(name){
     var validatedExists = await validatedNoteExists(name);
 
     if (!validatedExists){
-        return "no note with the specified name exists."
+        return await toolkit.transalateMessage("E005");
     }
 
     var tags = await loadTagsUsingFS(name);
 
     if (!tags){
-        return "tags could not be loaded. if locally hosted check server console";
+        return await toolkit.transalateMessage("E011");;
     }
 
     return tags;

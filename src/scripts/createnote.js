@@ -23,22 +23,22 @@ async function createNote(name, loggedInUser){
     var validatedName = await validateNoteName(name, loggedInUser);
 
     if (!validatedName){
-        return "Illegal note name.";
+        return "E001";
     }
 
     var validatedExistance = await validatedNoteNotExist(name);
 
     if (!validatedExistance){
-        return "Note with same name already exists.";
+        return "E002";
     }
 
     var validateNoteCreated = await createNoteWithFS(name, loggedInUser);
 
     if (!validateNoteCreated){
-        return "Note could not be created, if locally hosted check the server console output.";
+        return "E003";
     }
 
-    return "ok";
+    return "I001";
 }
 
 async function validateNoteName(name){
