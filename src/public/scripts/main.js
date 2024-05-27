@@ -133,6 +133,8 @@ function loadNote(UUID){
     .catch(error => console.error(error));
 }
 
+//TAGS
+
 async function tagsMenuGUI(){
     if (!currentlyLoadedNote){
         alert("No note loaded.");
@@ -198,7 +200,7 @@ function addTag(){
     fetch('/addtag', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ "name" : currentlyLoadedNote, "tag" : addTagInput.value })
+        body: JSON.stringify({ "UUID" : currentlyLoadedNote, "tag" : addTagInput.value })
     })
     .then(response => response.json())
     .then(data => {
@@ -212,7 +214,7 @@ function removeTag(tag){
     fetch('/removetag', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ "name" : currentlyLoadedNote, "tag" : tag })
+        body: JSON.stringify({ "UUID" : currentlyLoadedNote, "tag" : tag })
     })
     .then(response => response.json())
     .then(data => {

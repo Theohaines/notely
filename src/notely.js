@@ -85,8 +85,8 @@ app.use('/deletenote', requireAuth, async function (req, res){
 
 //TAGS
 
-app.use('/addtag', async function (req, res){
-    var message = await addtag.addTag(req.body.name, req.body.tag);
+app.use('/addtag', requireAuth, async function (req, res){
+    var message = await addtag.addTag(req.session.authtoken, req.body.UUID, req.body.tag);
 
     res.json(message);
 });
@@ -98,7 +98,7 @@ app.use('/loadtags', async function (req, res){
 });
 
 app.use('/removetag', async function (req, res){
-    var message = await removetag.removeTag(req.body.name, req.body.tag);
+    var message = await removetag.removeTag(req.session.authtoken, req.body.UUID, req.body.tag);
 
     res.json(message);
 });
