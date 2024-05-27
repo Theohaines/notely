@@ -60,7 +60,7 @@ app.use('/createnote', requireAuth, async function (req, res){
 });
 
 app.use('/savenote', requireAuth, async function (req, res){
-    var message = await savenote.saveNote(req.body.name, req.body.body);
+    var message = await savenote.saveNote(req.session.authtoken, req.body.UUID, req.body.body);
 
     res.json({"message" : message});
 });
