@@ -35,6 +35,7 @@ body {
 .notes-sidebar {
     height: 100%;
     width: 15%;
+    min-width: 300px;
     z-index: 1;
     top: 0;
     left: 0;
@@ -45,6 +46,8 @@ body {
     flex-direction: column;
     row-gap: 5px;
     align-items: center;
+
+    resize: horizontal;
 }
 
 .notes-sidebar button {
@@ -242,4 +245,41 @@ body {
     justify-content: center;
     flex-direction: column;
     row-gap: 5px;
+}
+
+.close-title-bar {
+    height: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: end;
+}
+
+.close-title-bar button{
+    transition: 1s;
+    height: 100%;
+    width: 20px;
+    background-color: var(--darkestgrey);
+    border: var(--lightgrey) 2px solid;
+    outline: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+}
+
+.close-title-bar img{
+    height: 100%;
+}
+
+@media only screen and (max-width: 1400px) {
+    .notes-sidebar {
+        width: 30%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .notes-sidebar {
+        width: 60%;
+    }
 }

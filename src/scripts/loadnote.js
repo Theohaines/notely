@@ -5,7 +5,7 @@ const sqlite3 = require('sqlite3');
 const toolkit = require('./reuseable/toolkit.js');
 
 async function loadNote(account, UUID){
-    var validatedNoteOwnership = await toolkit.validateNoteOwnership(account, UUID)
+    var validatedNoteOwnership = await toolkit.validateOwnershipViaUUID(account, UUID)
 
     if (!validatedNoteOwnership){
         return await toolkit.transalateMessage("E004");
