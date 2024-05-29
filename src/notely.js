@@ -47,6 +47,7 @@ app.use('/scripts', express.static(path.resolve('src/public/scripts')));
 app.use('/styles', express.static(path.resolve('src/public/styles')));
 
 app.use('/landing', express.static(path.resolve('src/public/pages/landing')));
+app.use('/about', express.static(path.resolve('src/public/pages/about')));
 app.use('/tos', express.static(path.resolve('src/public/pages/tos')));
 
 app.get('/', (req, res) => {
