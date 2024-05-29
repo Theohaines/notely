@@ -27,7 +27,7 @@ class clientNote {
         this.body = body;
         this.tags = tags;
     }
-  }
+}
 
 function resetScreen(){
     popupContainer.style.display = "none";
@@ -48,6 +48,7 @@ function resetScreen(){
 function start(){
     resetScreen();
     notepad.placeholder = "Welcome to Notely. To begin please login / signup and begin writing notes."
+    notepad.disabled = true;
 }
 
 //notes
@@ -147,10 +148,11 @@ function loadNote(UUID){
             resetScreen();
             notepad.value = "";
 
-            data = JSON.parse(data)
+            data = JSON.parse(data);
 
             notepad.value = data.body;
-            notepad.placeholder = ("You are editing: " + data.name + "...")
+            notepad.placeholder = ("You are editing: " + data.name + "...");
+            notepad.disabled = false;
             currentlyLoadedNote = UUID;
         }
     })
@@ -186,8 +188,8 @@ function deleteNote(){
     .then(response => response.json())
     .then(data => {
         currentlyLoadedNote = "";
-        notepad.value = "";
         resetScreen();
+        notepad.value = "Welcome to Notely. To begin please login / signup, then load a note and begin writing.";
         alert(data);
     })
     .catch(error => console.error(error));
@@ -369,6 +371,7 @@ function submitLogoutRequest(){
         alert(data);
 
         resetScreen();
+        start();
         loggedin = false;
     })
     .catch(error => console.error(error));
@@ -415,6 +418,8 @@ function searchNotes(){
                 noteInDocument.style.display = "flex";
             }
         }
+    } else {
+        resetScreen();
     }
 }
 
