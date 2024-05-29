@@ -12,8 +12,22 @@ const loginMenu = document.getElementById("loginMenu");
 const signupMenu = document.getElementById("signupMenu");
 const accountSettingsMenu = document.getElementById("accountSettingsMenu");
 
+//Search
+const notesSidebarSearch = document.getElementById('notesSidebarSearch');
+
 var currentlyLoadedNote = "";
 var loggedin = false;
+
+var inClientNotes = [];
+
+class clientNote {
+    constructor(name, UUID, body, tags) {
+        this.name = name;
+        this.UUID = UUID;
+        this.body = body;
+        this.tags = tags;
+    }
+  }
 
 function resetScreen(){
     popupContainer.style.display = "none";
@@ -26,11 +40,14 @@ function resetScreen(){
     signupMenu.style.display = "none";
     accountSettingsMenu.style.display = "none";
 
+    notesSidebarSearch.value = "";
+
     loadNotes();
 }
 
 function start(){
     resetScreen();
+    notepad.placeholder = "Welcome to Notely. To begin please login / signup and begin writing notes."
 }
 
 //notes
@@ -104,11 +121,15 @@ function populateNotesSidebar(data){
         var noteViewNote = document.createElement("div");
         noteViewNote.className = "sidebar-note";
         noteViewNote.setAttribute("onclick", "loadNote('"+note[2]+"')");
+        noteViewNote.setAttribute("id", note[2])
         notesSidebarContainer.appendChild(noteViewNote)
 
         var noteViewNoteName = document.createElement("h3");
         noteViewNoteName.textContent = note[0];
         noteViewNote.appendChild(noteViewNoteName);
+
+        var inClientNote = new clientNote(note[0], note[2], note[1], note[3]);
+        inClientNotes.push(inClientNote);
     }
 }
 
@@ -129,6 +150,7 @@ function loadNote(UUID){
             data = JSON.parse(data)
 
             notepad.value = data.body;
+            notepad.placeholder = ("You are editing: " + data.name + "...")
             currentlyLoadedNote = UUID;
         }
     })
@@ -351,5 +373,51 @@ function submitLogoutRequest(){
     })
     .catch(error => console.error(error));
 }
+
+//search stuff
+
+function searchNotes(){
+    var searchInput = notesSidebarSearch.value;
+
+    console.log(searchInput);
+
+    if (searchInput != ""){ //TODO: Refactor and simplify (THIS IS A FUCKING MESS) never nest my ass
+        for (var note of inClientNotes){
+            if (!note.name.includes(searchInput)){
+                //console.log(note.name, "doesn't contain", searchInput)
+
+                if (!note.body.includes(searchInput)){
+                    //console.log(note.body, "doesn't contain", searchInput)
+
+                    if (!note.tags.length == 0){
+                        for (var tag of note.tags){
+                            if (!tag.includes(searchInput)){
+                                //console.log(note.name, tag, "doesn't contain", searchInput)
+    
+                                var noteInDocument = document.getElementById(note.UUID);
+                                console.log(note.name, note.UUID)
+                                noteInDocument.style.display = "none";
+                            }
+                        }
+                    } else {
+                        var noteInDocument = document.getElementById(note.UUID);
+                        //console.log(note.name, note.UUID)
+                        noteInDocument.style.display = "none";
+                    }
+                } else {
+                    var noteInDocument = document.getElementById(note.UUID);
+                    //console.log(note.name, note.UUID)
+                    noteInDocument.style.display = "flex";
+                }
+            } else {
+                var noteInDocument = document.getElementById(note.UUID);
+                //console.log(note.name, note.UUID)
+                noteInDocument.style.display = "flex";
+            }
+        }
+    }
+}
+
+notesSidebarSearch.addEventListener("input", searchNotes);
 
 start();
