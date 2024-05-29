@@ -20,6 +20,7 @@
     "E019" : "E019: The notes could not be loaded. If you are running this instance of Notely locally please check the server console.",
     "E020" : "E020: Please fill out the Captcha.",
     "E021" : "E021: Unable to verify captcha.",
+    "E022" : "E022: Logout failed. Usually this is caused by the user not being signed in to begin with.",
     "W001" : "W001: No note is currently loaded.",
     "I001" : "I001: The note was created successfully.",
     "I002" : "I002: The note was saved successfully.",

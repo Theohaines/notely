@@ -148,7 +148,11 @@ app.use('/login', async function (req, res){
 });
 
 app.use('/logout', requireAuth, async function (req, res){
-    req.session.destroy();
+    try {
+        req.session.destroy();
+    } catch {
+        res.json(await toolkit.transalateMessage("I022"));
+    }
 
     res.json(await toolkit.transalateMessage("I008"));
 });
