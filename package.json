@@ -1,6 +1,9 @@
 {
   "scripts": {
-    "start": "nodemon src/notely.js --ext js,html,css,env"
+    "start": "nodemon src/notely.js --ext js,html,css,env",
+    "lsusers": "node src/admin/listallusers.js",
+    "lsnotes": "node src/admin/listallnotes.js",
+    "deleteuser": "node src/admin/deleteuser.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
