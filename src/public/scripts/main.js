@@ -242,6 +242,7 @@ function addTag(){
     })
     .then(response => response.json())
     .then(data => {
+        addTagInput.value = "";
         loadTagsGUI();
         alert(data);
     })
@@ -303,6 +304,8 @@ function submitSignupRequest(){
         alert(data);
 
         if (data == "I008: Account was logged out successfully. We reccomend closing this tab." || data == "E014: Account with this email already exists. Please login instead."){
+            signupEmailInput.value = "";
+            signupPasswordInput.value = "";
             toggleLoginSignupGUI();
         }
     })
@@ -325,6 +328,8 @@ function submitLoginRequest(){
         if (data == "E012: Account with this email does not exist. Please create a new account."){
             toggleLoginSignupGUI();
         } else if (data == "I006: Account was logged in successfully."){
+            loginMenuEmailInput.value - "";
+            loginMenuPasswordInput.value = "";
             resetScreen();
             loggedin = true;
         }
