@@ -110,6 +110,23 @@ app.use('/removetag', async function (req, res){
 //ACCOUNT
 
 app.use('/signup', async function (req, res){
+    try {
+        var captchaResponse = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: `secret=${process.env.GRECAPTCHASECRET}&response=${req.body.token}`
+        });
+
+        let captchaResult = await captchaResponse.json();
+        if (!captchaResult.success) {
+            return res.json(await toolkit.transalateMessage("E020"));
+        }
+    } catch (err) {
+        return res.json(await toolkit.transalateMessage("E021"));
+    }
+
     var code = await signup.signup(req.body.email, req.body.password);
 
     res.json(await toolkit.transalateMessage(code));

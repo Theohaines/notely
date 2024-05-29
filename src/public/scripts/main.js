@@ -321,13 +321,13 @@ function submitSignupRequest(){
     fetch('/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ "email" : signupEmailInput.value, "password" : signupPasswordInput.value })
+        body: JSON.stringify({ "email" : signupEmailInput.value, "password" : signupPasswordInput.value, "token" : grecaptcha.getResponse() })
     })
     .then(response => response.json())
     .then(data => {
         alert(data);
 
-        if (data == "I008: Account was logged out successfully. We reccomend closing this tab." || data == "E014: Account with this email already exists. Please login instead."){
+        if (data == "I007: Account was created successfully." || data == "E014: Account with this email already exists. Please login instead."){
             signupEmailInput.value = "";
             signupPasswordInput.value = "";
             toggleLoginSignupGUI();
