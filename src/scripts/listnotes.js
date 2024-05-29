@@ -44,7 +44,7 @@ async function composeNotesByAllAccount(account){
             var data = fs.readFileSync(path.resolve('src/notes/' + file.N_UUID + ".json"), 'utf-8');
 
             var parsedJSON = JSON.parse(data);
-            composedNotes.push([parsedJSON.name, parsedJSON.body, file.N_UUID]);
+            composedNotes.push([parsedJSON.name, parsedJSON.body, file.N_UUID, parsedJSON.tags]); // [name, body, UUID, tags]
         });
 
         resolve(true)
