@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOTELY - welcome</title>
+    <title>NOTELY - BETA</title>
 
     <link rel="stylesheet" href="/styles/global.css">
     <link rel="icon" type="image/x-icon" href="/media/icons/favicon.ico">
@@ -54,7 +54,8 @@
             <button onclick="deleteNote()">delete note</button>
         </div>
 
-        <div class="popup" id="accountMenu">    
+        <div class="popup" id="accountMenu">   
+            <!--LOGIN-->
             <div id="loginMenu" class="accounts-menu">
                 <div class="close-title-bar"><button onclick="resetScreen()"><img src="/media/icons/close.svg" alt="close button"></button></div>
                 <h1>account login</h1>
@@ -63,20 +64,24 @@
                 <button onclick="submitLoginRequest()">submit</button>
                 <button onclick="toggleLoginSignupGUI()">signup instead</button>
             </div>
+            <!--SIGNUP-->
             <div id="signupMenu" class="accounts-menu">
                 <div class="close-title-bar"><button onclick="resetScreen()"><img src="/media/icons/close.svg" alt="close button"></button></div>
                 <h1>account signup</h1>
                 <input type="text" placeholder="email..." id="signupEmailInput" autocomplete="email" required>
                 <input type="password" placeholder="password..." id="signupPasswordInput" autocomplete="new-password" required>
+                <p>By signing up you are agreeing to the <a href="/tos">terms of service</a> and <a href="/tos">privacy policy.</a></p>
                 
                 <button onclick="submitSignupRequest()">submit</button>
                 <button onclick="toggleLoginSignupGUI()">login instead</button>
             </div>
+            <!--SETTINGS-->
             <div id="accountSettingsMenu" class="accounts-menu">
                 <div class="close-title-bar"><button onclick="resetScreen()"><img src="/media/icons/close.svg" alt="close button"></button></div>
                 <h1>account settings</h1>
                 <button onclick="submitLogoutRequest()">logout</button>
             </div>
+
         </div>
     </div>
 </body>
