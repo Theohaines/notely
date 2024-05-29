@@ -148,8 +148,6 @@ async function addAccountToDatabase(email, password){
     var validated = await new Promise((resolve, reject) => {
         var db = new sqlite3.Database(path.resolve('src/databases/notely.sqlite'));
 
-        console.log(email, password)
-
         db.run('INSERT INTO `accounts` (`A_EMAIL`, `A_PASSWORD`) VALUES (?, ?)', [email, password], (err) => {
             if (err){
                 console.log(err);
