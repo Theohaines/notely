@@ -1,47 +1,54 @@
-const fs = require('fs');
-const path = require('path');
-const sqlite3 = require('sqlite3');
+const fs = require("fs");
+const path = require("path");
+const sqlite3 = require("sqlite3");
 
-const toolkit = require('./reuseable/toolkit.js');
+const toolkit = require("./reuseable/toolkit.js");
 
-async function loadNote(account, UUID){
-    var validatedNoteOwnership = await toolkit.validateOwnershipViaUUID(account, UUID)
+async function loadNote(account, UUID) {
+  var validatedNoteOwnership = await toolkit.validateOwnershipViaUUID(
+    account,
+    UUID,
+  );
 
-    if (!validatedNoteOwnership){
-        return await toolkit.transalateMessage("E004");
-    }
+  if (!validatedNoteOwnership) {
+    return await toolkit.transalateMessage("E004");
+  }
 
-    var validatedExists = await toolkit.validatedNoteExists(UUID);
+  var validatedExists = await toolkit.validatedNoteExists(UUID);
 
-    if (!validatedExists){
-        return await toolkit.transalateMessage("E005");
-    }
+  if (!validatedExists) {
+    return await toolkit.transalateMessage("E005");
+  }
 
-    var validateNoteLoaded = await loadNoteUsingFS(UUID);
+  var validateNoteLoaded = await loadNoteUsingFS(UUID);
 
-    if (!validateNoteLoaded){
-        return await toolkit.transalateMessage("E007");
-    }
+  if (!validateNoteLoaded) {
+    return await toolkit.transalateMessage("E007");
+  }
 
-    return validateNoteLoaded;
+  return validateNoteLoaded;
 }
 
-async function loadNoteUsingFS(UUID){
-    var validated = await new Promise((resolve, reject) => {
-        fs.readFile(path.resolve('src/notes/' + UUID + '.json'), 'utf-8', (err, data) => {
-            if (err){
-                resolve(false);
-            }
+async function loadNoteUsingFS(UUID) {
+  var validated = await new Promise((resolve, reject) => {
+    fs.readFile(
+      path.resolve("src/notes/" + UUID + ".json"),
+      "utf-8",
+      (err, data) => {
+        if (err) {
+          resolve(false);
+        }
 
-            resolve(data);
-        });
-    });
+        resolve(data);
+      },
+    );
+  });
 
-    if (!validated){
-        return false;
-    } else {
-        return validated;
-    }
+  if (!validated) {
+    return false;
+  } else {
+    return validated;
+  }
 }
 
-module.exports = { loadNote }
+module.exports = { loadNote };

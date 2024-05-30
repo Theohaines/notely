@@ -1,91 +1,157 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NOTELY - BETA</title>
 
-    <link rel="stylesheet" href="/styles/global.css">
-    <link rel="icon" type="image/x-icon" href="/media/icons/favicon.ico">
-</head>
-<body>
+    <link rel="stylesheet" href="/styles/global.css" />
+    <link rel="icon" type="image/x-icon" href="/media/icons/favicon.ico" />
+  </head>
+  <body>
     <div class="main-container">
-        
-        <div class="notes-sidebar" id="notesSidebar">
-            <h1>Notely <i>BETA</i></h1>
-            <button onclick="accountGUI()">account<img src="/media/icons/account/accountcircle.svg" alt=""></button>
-            <button onclick="createNewNoteGUI()">create note<img src="/media/icons/notestackadd.svg" alt=""></button>
-            <input type="text" id="notesSidebarSearch" placeholder="search... (name, contents, tags)">
-            <div class="notes-sidebar-container" id="notesSidebarContainer">
-            </div>
+      <div class="notes-sidebar" id="notesSidebar">
+        <h1>Notely <i>BETA</i></h1>
+        <button onclick="accountGUI()">
+          account<img src="/media/icons/account/accountcircle.svg" alt="" />
+        </button>
+        <button onclick="createNewNoteGUI()">
+          create note<img src="/media/icons/notestackadd.svg" alt="" />
+        </button>
+        <input
+          type="text"
+          id="notesSidebarSearch"
+          placeholder="search... (name, contents, tags)"
+        />
+        <div class="notes-sidebar-container" id="notesSidebarContainer"></div>
+      </div>
+
+      <div class="note-edits-container">
+        <div class="tool-bar">
+          <button onclick="saveNote()">
+            <img src="/media/icons/toolbar/save.svg" alt="save" />
+          </button>
+          <button onclick="tagsMenuGUI()">
+            <img src="/media/icons/toolbar/edittags.svg" alt="edit tags" />
+          </button>
+          <button onclick="noteSettingsGUI()">
+            <img src="/media/icons/toolbar/settings.svg" alt="note settings" />
+          </button>
         </div>
 
-        <div class="note-edits-container">
-            <div class="tool-bar">
-                <button onclick="saveNote()"><img src="/media/icons/toolbar/save.svg" alt="save"></button>
-                <button onclick="tagsMenuGUI()"><img src="/media/icons/toolbar/edittags.svg" alt="edit tags"></button>
-                <button onclick="noteSettingsGUI()"><img src="/media/icons/toolbar/settings.svg" alt="note settings"></button>
-            </div>
-
-            <textarea id="notepad" class="notepad"></textarea>
-        </div>
+        <textarea id="notepad" class="notepad"></textarea>
+      </div>
     </div>
 
     <div class="appear-over-everything-main-container" id="popupContainer">
-        <div class="popup" id="createNewNotePopup">
-            <div class="close-title-bar"><button onclick="resetScreen()"><img src="/media/icons/close.svg" alt="close button"></button></div>
-            <h1>create new note</h1>
-            <input type="text" id="newNoteNameInput" placeholder="enter note name...">
-            <button onclick="createNewNote()">create note</button>
+      <div class="popup" id="createNewNotePopup">
+        <div class="close-title-bar">
+          <button onclick="resetScreen()">
+            <img src="/media/icons/close.svg" alt="close button" />
+          </button>
         </div>
+        <h1>create new note</h1>
+        <input
+          type="text"
+          id="newNoteNameInput"
+          placeholder="enter note name..."
+        />
+        <button onclick="createNewNote()">create note</button>
+      </div>
 
-        <div class="popup" id="noteTagsPopup">
-            <div class="close-title-bar"><button onclick="resetScreen()"><img src="/media/icons/close.svg" alt="close button"></button></div>
-            <h1>note tags</h1>
-            <div class="tags-container" id="tagsContainer">
-
-            </div>
-            <input type="text" id="addTagInput" placeholder="enter tag name...">
-            <button onclick="addTag()">create tag</button>
+      <div class="popup" id="noteTagsPopup">
+        <div class="close-title-bar">
+          <button onclick="resetScreen()">
+            <img src="/media/icons/close.svg" alt="close button" />
+          </button>
         </div>
+        <h1>note tags</h1>
+        <div class="tags-container" id="tagsContainer"></div>
+        <input type="text" id="addTagInput" placeholder="enter tag name..." />
+        <button onclick="addTag()">create tag</button>
+      </div>
 
-        <div class="popup" id="noteSettingsPopup">
-            <div class="close-title-bar"><button onclick="resetScreen()"><img src="/media/icons/close.svg" alt="close button"></button></div>
-            <h1>note settings</h1>
-            <button onclick="deleteNote()">delete note</button>
+      <div class="popup" id="noteSettingsPopup">
+        <div class="close-title-bar">
+          <button onclick="resetScreen()">
+            <img src="/media/icons/close.svg" alt="close button" />
+          </button>
         </div>
+        <h1>note settings</h1>
+        <button onclick="deleteNote()">delete note</button>
+      </div>
 
-        <div class="popup" id="accountMenu">   
-            <!--LOGIN-->
-            <div id="loginMenu" class="accounts-menu">
-                <div class="close-title-bar"><button onclick="resetScreen()"><img src="/media/icons/close.svg" alt="close button"></button></div>
-                <h1>account login</h1>
-                <input type="text" placeholder="email..." id="loginMenuEmailInput" autocomplete="email">
-                <input type="password" placeholder="password..." id="loginMenuPasswordInput" autocomplete="current-password">
-                <button onclick="submitLoginRequest()">submit</button>
-                <button onclick="toggleLoginSignupGUI()">signup instead</button>
-            </div>
-            <!--SIGNUP-->
-            <div id="signupMenu" class="accounts-menu">
-                <div class="close-title-bar"><button onclick="resetScreen()"><img src="/media/icons/close.svg" alt="close button"></button></div>
-                <h1>account signup</h1>
-                <input type="text" placeholder="email..." id="signupEmailInput" autocomplete="email" required>
-                <input type="password" placeholder="password..." id="signupPasswordInput" autocomplete="new-password" required>
-                <div class="g-recaptcha" data-sitekey="6Lfw_-spAAAAAEXM1MwnuZ0rHKEYkxU7SmeM7Y57"></div>
-                <p>By signing up you are agreeing to the <a href="/tos">terms of service</a> and <a href="/tos">privacy policy.</a></p>
-                <br/>
-                <button onclick="submitSignupRequest()">submit</button>
-                <button onclick="toggleLoginSignupGUI()">login instead</button>
-            </div>
-            <!--SETTINGS-->
-            <div id="accountSettingsMenu" class="accounts-menu">
-                <div class="close-title-bar"><button onclick="resetScreen()"><img src="/media/icons/close.svg" alt="close button"></button></div>
-                <h1>account settings</h1>
-                <button onclick="submitLogoutRequest()">logout</button>
-            </div>
-
+      <div class="popup" id="accountMenu">
+        <!--LOGIN-->
+        <div id="loginMenu" class="accounts-menu">
+          <div class="close-title-bar">
+            <button onclick="resetScreen()">
+              <img src="/media/icons/close.svg" alt="close button" />
+            </button>
+          </div>
+          <h1>account login</h1>
+          <input
+            type="text"
+            placeholder="email..."
+            id="loginMenuEmailInput"
+            autocomplete="email"
+          />
+          <input
+            type="password"
+            placeholder="password..."
+            id="loginMenuPasswordInput"
+            autocomplete="current-password"
+          />
+          <button onclick="submitLoginRequest()">submit</button>
+          <button onclick="toggleLoginSignupGUI()">signup instead</button>
         </div>
+        <!--SIGNUP-->
+        <div id="signupMenu" class="accounts-menu">
+          <div class="close-title-bar">
+            <button onclick="resetScreen()">
+              <img src="/media/icons/close.svg" alt="close button" />
+            </button>
+          </div>
+          <h1>account signup</h1>
+          <input
+            type="text"
+            placeholder="email..."
+            id="signupEmailInput"
+            autocomplete="email"
+            required
+          />
+          <input
+            type="password"
+            placeholder="password..."
+            id="signupPasswordInput"
+            autocomplete="new-password"
+            required
+          />
+          <div
+            class="g-recaptcha"
+            data-sitekey="6Lfw_-spAAAAAEXM1MwnuZ0rHKEYkxU7SmeM7Y57"
+          ></div>
+          <p>
+            By signing up you are agreeing to the
+            <a href="/tos">terms of service</a> and
+            <a href="/tos">privacy policy.</a>
+          </p>
+          <br />
+          <button onclick="submitSignupRequest()">submit</button>
+          <button onclick="toggleLoginSignupGUI()">login instead</button>
+        </div>
+        <!--SETTINGS-->
+        <div id="accountSettingsMenu" class="accounts-menu">
+          <div class="close-title-bar">
+            <button onclick="resetScreen()">
+              <img src="/media/icons/close.svg" alt="close button" />
+            </button>
+          </div>
+          <h1>account settings</h1>
+          <button onclick="submitLogoutRequest()">logout</button>
+        </div>
+      </div>
     </div>
-</body>
-<script src="https://www.google.com/recaptcha/api.js"></script>
-<script src="/scripts/main.js"></script>
+  </body>
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+  <script src="/scripts/main.js"></script>
 </html>
