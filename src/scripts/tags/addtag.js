@@ -4,50 +4,53 @@ const path = require("path");
 const toolkit = require("../reuseable/toolkit.js");
 
 async function addTag(account, UUID, tag) {
-  var validateOwnership = await toolkit.validateOwnershipViaUUID(account, UUID);
+    var validateOwnership = await toolkit.validateOwnershipViaUUID(
+        account,
+        UUID,
+    );
 
-  if (!validateOwnership) {
-    return "E004";
-  }
+    if (!validateOwnership) {
+        return "E004";
+    }
 
-  var validatedExists = await toolkit.validatedNoteExists(UUID);
+    var validatedExists = await toolkit.validatedNoteExists(UUID);
 
-  if (!validatedExists) {
-    return "E005";
-  }
+    if (!validatedExists) {
+        return "E005";
+    }
 
-  var validatedAddTag = await addTagUsingFS(UUID, tag);
+    var validatedAddTag = await addTagUsingFS(UUID, tag);
 
-  if (!validatedAddTag) {
-    return "E009";
-  }
+    if (!validatedAddTag) {
+        return "E009";
+    }
 
-  return "I004";
+    return "I004";
 }
 
 async function addTagUsingFS(UUID, tag) {
-  var filepath = path.resolve("src/notes/" + UUID + ".json");
+    var filepath = path.resolve("src/notes/" + UUID + ".json");
 
-  var validated = await new Promise((resolve, reject) => {
-    var data = fs.readFileSync(filepath, "utf8");
+    var validated = await new Promise((resolve, reject) => {
+        var data = fs.readFileSync(filepath, "utf8");
 
-    var parsedJSON = JSON.parse(data);
-    parsedJSON.tags.push(tag);
+        var parsedJSON = JSON.parse(data);
+        parsedJSON.tags.push(tag);
 
-    fs.writeFile(filepath, JSON.stringify(parsedJSON, null, 2), (err) => {
-      if (err) {
-        resolve(false);
-      } else {
-        resolve(true);
-      }
+        fs.writeFile(filepath, JSON.stringify(parsedJSON, null, 2), (err) => {
+            if (err) {
+                resolve(false);
+            } else {
+                resolve(true);
+            }
+        });
     });
-  });
 
-  if (!validated) {
-    return false;
-  } else {
-    return true;
-  }
+    if (!validated) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 module.exports = { addTag };

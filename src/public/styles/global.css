@@ -1,287 +1,287 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
-  --accentblue: #007acc;
-  --lightgrey: #3e3e42;
-  --darkergrey: #2d2d30;
-  --darkestgrey: #252526;
+    --accentblue: #007acc;
+    --lightgrey: #3e3e42;
+    --darkergrey: #2d2d30;
+    --darkestgrey: #252526;
 
-  --opacityfilter: #373839df;
+    --opacityfilter: #373839df;
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  font-family: "Noto Sans", sans-serif;
-  font-optical-sizing: auto;
-  color: white;
+    margin: 0;
+    padding: 0;
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    color: white;
 }
 
 body {
-  background-color: var(--darkergrey);
+    background-color: var(--darkergrey);
 }
 
 .main-container {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 
-  display: flex;
-  flex-flow: row;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    flex-flow: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
 }
 
 .notes-sidebar {
-  height: 100%;
-  width: 15%;
-  min-width: 300px;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  overflow-x: hidden;
-  background-color: var(--darkestgrey);
+    height: 100%;
+    width: 15%;
+    min-width: 300px;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    background-color: var(--darkestgrey);
 
-  display: flex;
-  flex-direction: column;
-  row-gap: 5px;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    align-items: center;
 
-  resize: horizontal;
+    resize: horizontal;
 }
 
 .notes-sidebar button {
-  transition: 1s;
-  width: 96%;
-  background-color: var(--darkestgrey);
-  border: var(--lightgrey) 2px solid;
-  height: 30px;
-  outline: none;
+    transition: 1s;
+    width: 96%;
+    background-color: var(--darkestgrey);
+    border: var(--lightgrey) 2px solid;
+    height: 30px;
+    outline: none;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .notes-sidebar button:hover {
-  transition: 1s;
-  background-color: var(--darkergrey);
-  border: var(--accentblue) 2px solid;
+    transition: 1s;
+    background-color: var(--darkergrey);
+    border: var(--accentblue) 2px solid;
 }
 
 .notes-sidebar input[type="text"] {
-  width: 96%;
-  background-color: var(--darkestgrey);
-  border: var(--lightgrey) 2px solid;
-  height: 30px;
-  outline: none;
+    width: 96%;
+    background-color: var(--darkestgrey);
+    border: var(--lightgrey) 2px solid;
+    height: 30px;
+    outline: none;
 }
 
 .notes-sidebar input[type="text"]:focus {
-  border: var(--accentblue) 2px solid;
+    border: var(--accentblue) 2px solid;
 }
 
 .notes-sidebar-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  row-gap: 5px;
-  align-items: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 5px;
+    align-items: center;
 }
 
 .sidebar-note {
-  transition: 1s;
-  width: 95%;
-  height: fit-content;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  background-color: var(--darkestgrey);
-  border: var(--lightgrey) 2px solid;
+    transition: 1s;
+    width: 95%;
+    height: fit-content;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: var(--darkestgrey);
+    border: var(--lightgrey) 2px solid;
 }
 
 .sidebar-note:hover {
-  transition: 1s;
-  background-color: var(--darkergrey);
-  border: var(--accentblue) 2px solid;
+    transition: 1s;
+    background-color: var(--darkergrey);
+    border: var(--accentblue) 2px solid;
 }
 
 .note-edits-container {
-  width: 85%;
-  height: 100%;
+    width: 85%;
+    height: 100%;
 
-  display: flex;
-  flex-flow: column;
+    display: flex;
+    flex-flow: column;
 }
 
 .tool-bar {
-  width: 100%;
-  height: 40px;
+    width: 100%;
+    height: 40px;
 
-  background-color: var(--darkestgrey);
+    background-color: var(--darkestgrey);
 
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 
 .tool-bar button {
-  height: 100%;
-  background-color: var(--darkestgrey);
-  border: var(--darkestgrey) 2px solid;
+    height: 100%;
+    background-color: var(--darkestgrey);
+    border: var(--darkestgrey) 2px solid;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .tool-bar button:hover {
-  background-color: var(--darkergrey);
-  border: var(--accentblue) 2px solid;
+    background-color: var(--darkergrey);
+    border: var(--accentblue) 2px solid;
 }
 
 .tool-bar button img {
-  height: 100%;
+    height: 100%;
 }
 
 .notepad {
-  background-color: #2d2d30;
-  resize: none;
-  height: 100%;
+    background-color: #2d2d30;
+    resize: none;
+    height: 100%;
 
-  outline: none;
+    outline: none;
 }
 
 .appear-over-everything-main-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  left: 0;
-  top: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    left: 0;
+    top: 0;
 
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
 
-  background-color: var(--opacityfilter);
+    background-color: var(--opacityfilter);
 }
 
 .appear-over-everything-main-container input[type="text"],
 [type="password"] {
-  width: 60%;
-  height: 30px;
+    width: 60%;
+    height: 30px;
 
-  font-size: large;
-  outline: none;
+    font-size: large;
+    outline: none;
 
-  background-color: var(--darkestgrey);
-  border: var(--lightgrey) 2px solid;
+    background-color: var(--darkestgrey);
+    border: var(--lightgrey) 2px solid;
 }
 
 .appear-over-everything-main-container input[type="text"],
 [type="password"]:focus {
-  border: var(--accentblue) 2px solid;
+    border: var(--accentblue) 2px solid;
 }
 
 .appear-over-everything-main-container button {
-  transition: 1s;
-  width: 60%;
-  height: 30px;
+    transition: 1s;
+    width: 60%;
+    height: 30px;
 
-  font-size: large;
-  outline: none;
+    font-size: large;
+    outline: none;
 
-  background-color: var(--darkestgrey);
-  border: var(--lightgrey) 2px solid;
+    background-color: var(--darkestgrey);
+    border: var(--lightgrey) 2px solid;
 }
 
 .appear-over-everything-main-container button:hover {
-  transition: 1s;
-  background-color: var(--darkergrey);
-  border: var(--accentblue) 2px solid;
+    transition: 1s;
+    background-color: var(--darkergrey);
+    border: var(--accentblue) 2px solid;
 }
 
 .popup {
-  background-color: #252526;
-  border: #3e3e42 2px solid;
-  width: 40%;
-  padding: 10px;
+    background-color: #252526;
+    border: #3e3e42 2px solid;
+    width: 40%;
+    padding: 10px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-flow: column;
-  row-gap: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+    row-gap: 5px;
 }
 
 .tags-container {
-  width: 100%;
+    width: 100%;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  row-gap: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 5px;
 }
 
 .tag-menu-tag {
-  background-color: var(--darkestgrey);
-  border: 1px var(--accentblue) solid;
-  width: 60%;
-  height: 40px;
-  padding: 5px;
+    background-color: var(--darkestgrey);
+    border: 1px var(--accentblue) solid;
+    width: 60%;
+    height: 40px;
+    padding: 5px;
 
-  display: flex;
-  flex-direction: row;
-  column-gap: 10px;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .accounts-menu {
-  width: 100%;
+    width: 100%;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  row-gap: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 5px;
 }
 
 .close-title-bar {
-  height: 20px;
-  width: 100%;
-  display: flex;
-  justify-content: right;
-  align-items: end;
+    height: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: end;
 }
 
 .close-title-bar button {
-  transition: 1s;
-  height: 100%;
-  width: 20px;
-  background-color: var(--darkestgrey);
-  border: var(--lightgrey) 2px solid;
-  outline: none;
+    transition: 1s;
+    height: 100%;
+    width: 20px;
+    background-color: var(--darkestgrey);
+    border: var(--lightgrey) 2px solid;
+    outline: none;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .close-title-bar img {
-  height: 100%;
+    height: 100%;
 }
 
 @media only screen and (max-width: 1400px) {
-  .notes-sidebar {
-    width: 30%;
-  }
+    .notes-sidebar {
+        width: 30%;
+    }
 }
 
 @media only screen and (max-width: 800px) {
-  .notes-sidebar {
-    width: 60%;
-  }
+    .notes-sidebar {
+        width: 60%;
+    }
 }

@@ -27,22 +27,22 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
-  session({
-    secret: process.env.SESSIONSECRET,
-    resave: true,
-    saveUninitialized: true,
-    cookie: { secure: true },
-  }),
+    session({
+        secret: process.env.SESSIONSECRET,
+        resave: true,
+        saveUninitialized: true,
+        cookie: { secure: true },
+    }),
 );
 
 const requireAuth = (req, res, next) => {
-  if (req.session.authtoken || process.env.NOACCOUNT == "true") {
-    next();
-  } else {
-    message =
-      "E018: An account is required when using the official NOTELY site. If this is a locally hosted instance please check the localhost guide on Github.";
-    res.send({ message: message });
-  }
+    if (req.session.authtoken || process.env.NOACCOUNT == "true") {
+        next();
+    } else {
+        message =
+            "E018: An account is required when using the official NOTELY site. If this is a locally hosted instance please check the localhost guide on Github.";
+        res.send({ message: message });
+    }
 };
 
 app.use("/", express.static(path.resolve("src/public")));
@@ -55,124 +55,130 @@ app.use("/about", express.static(path.resolve("src/public/pages/about")));
 app.use("/tos", express.static(path.resolve("src/public/pages/tos")));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.resolve("src/public/pages/landing/index.html"));
+    res.sendFile(path.resolve("src/public/pages/landing/index.html"));
 });
 
 app.listen(process.env.PORT, () => {
-  console.log("listening on", process.env.PORT);
+    console.log("listening on", process.env.PORT);
 });
 
 app.use("/createnote", requireAuth, async function (req, res) {
-  var code = await createnote.createNote(req.body.name, req.session.authtoken);
+    var code = await createnote.createNote(
+        req.body.name,
+        req.session.authtoken,
+    );
 
-  res.json({ message: await toolkit.transalateMessage(code) });
+    res.json({ message: await toolkit.transalateMessage(code) });
 });
 
 app.use("/savenote", requireAuth, async function (req, res) {
-  var code = await savenote.saveNote(
-    req.session.authtoken,
-    req.body.UUID,
-    req.body.body,
-  );
+    var code = await savenote.saveNote(
+        req.session.authtoken,
+        req.body.UUID,
+        req.body.body,
+    );
 
-  res.json({ message: await toolkit.transalateMessage(code) });
+    res.json({ message: await toolkit.transalateMessage(code) });
 });
 
 app.use("/listnotes", requireAuth, async function (req, res) {
-  var notes = await listnotes.listNotes(req.session.authtoken);
+    var notes = await listnotes.listNotes(req.session.authtoken);
 
-  res.json({ notes });
+    res.json({ notes });
 });
 
 app.use("/loadnote", requireAuth, async function (req, res) {
-  var note = await loadnote.loadNote(req.session.authtoken, req.body.UUID);
+    var note = await loadnote.loadNote(req.session.authtoken, req.body.UUID);
 
-  res.json(note);
+    res.json(note);
 });
 
 app.use("/deletenote", requireAuth, async function (req, res) {
-  var code = await deletenote.deleteNote(req.session.authtoken, req.body.UUID);
+    var code = await deletenote.deleteNote(
+        req.session.authtoken,
+        req.body.UUID,
+    );
 
-  res.json(await toolkit.transalateMessage(code));
+    res.json(await toolkit.transalateMessage(code));
 });
 
 //TAGS
 
 app.use("/addtag", requireAuth, async function (req, res) {
-  var code = await addtag.addTag(
-    req.session.authtoken,
-    req.body.UUID,
-    req.body.tag,
-  );
+    var code = await addtag.addTag(
+        req.session.authtoken,
+        req.body.UUID,
+        req.body.tag,
+    );
 
-  res.json(await toolkit.transalateMessage(code));
+    res.json(await toolkit.transalateMessage(code));
 });
 
 app.use("/loadtags", async function (req, res) {
-  var message = await loadtags.loadTags(req.body.name);
+    var message = await loadtags.loadTags(req.body.name);
 
-  res.json(message);
+    res.json(message);
 });
 
 app.use("/removetag", async function (req, res) {
-  var code = await removetag.removeTag(
-    req.session.authtoken,
-    req.body.UUID,
-    req.body.tag,
-  );
+    var code = await removetag.removeTag(
+        req.session.authtoken,
+        req.body.UUID,
+        req.body.tag,
+    );
 
-  res.json(await toolkit.transalateMessage(code));
+    res.json(await toolkit.transalateMessage(code));
 });
 
 //ACCOUNT
 
 app.use("/signup", async function (req, res) {
-  try {
-    var captchaResponse = await fetch(
-      "https://www.google.com/recaptcha/api/siteverify",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `secret=${process.env.GRECAPTCHASECRET}&response=${req.body.token}`,
-      },
-    );
+    try {
+        var captchaResponse = await fetch(
+            "https://www.google.com/recaptcha/api/siteverify",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: `secret=${process.env.GRECAPTCHASECRET}&response=${req.body.token}`,
+            },
+        );
 
-    let captchaResult = await captchaResponse.json();
-    if (!captchaResult.success) {
-      return res.json(await toolkit.transalateMessage("E020"));
+        let captchaResult = await captchaResponse.json();
+        if (!captchaResult.success) {
+            return res.json(await toolkit.transalateMessage("E020"));
+        }
+    } catch (err) {
+        return res.json(await toolkit.transalateMessage("E021"));
     }
-  } catch (err) {
-    return res.json(await toolkit.transalateMessage("E021"));
-  }
 
-  var code = await signup.signup(req.body.email, req.body.password);
+    var code = await signup.signup(req.body.email, req.body.password);
 
-  res.json(await toolkit.transalateMessage(code));
+    res.json(await toolkit.transalateMessage(code));
 });
 
 app.use("/login", async function (req, res) {
-  if (process.env.NOACCOUNT == "true") {
-    req.session.authtoken = "local";
-    res.json({ message: "Logged in" });
-  }
+    if (process.env.NOACCOUNT == "true") {
+        req.session.authtoken = "local";
+        res.json({ message: "Logged in" });
+    }
 
-  var code = await login.login(req.body.email, req.body.password);
+    var code = await login.login(req.body.email, req.body.password);
 
-  if (code == "I006") {
-    req.session.authtoken = req.body.email;
-  }
+    if (code == "I006") {
+        req.session.authtoken = req.body.email;
+    }
 
-  res.json(await toolkit.transalateMessage(code));
+    res.json(await toolkit.transalateMessage(code));
 });
 
 app.use("/logout", requireAuth, async function (req, res) {
-  try {
-    req.session.destroy();
-  } catch {
-    res.json(await toolkit.transalateMessage("I022"));
-  }
+    try {
+        req.session.destroy();
+    } catch {
+        res.json(await toolkit.transalateMessage("I022"));
+    }
 
-  res.json(await toolkit.transalateMessage("I008"));
+    res.json(await toolkit.transalateMessage("I008"));
 });

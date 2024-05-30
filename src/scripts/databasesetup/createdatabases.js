@@ -19,40 +19,42 @@ const notesSQL = `CREATE TABLE notes
             )`;
 
 function createDatabase() {
-  const db = new sqlite3.Database(
-    path.resolve("src/databases/notely.sqlite"),
-    (err) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
+    const db = new sqlite3.Database(
+        path.resolve("src/databases/notely.sqlite"),
+        (err) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
 
-      console.log('Created sqlite3 db "notely.sqlite"');
-      setupDatabase();
-    },
-  );
+            console.log('Created sqlite3 db "notely.sqlite"');
+            setupDatabase();
+        },
+    );
 }
 
 function setupDatabase() {
-  const db = new sqlite3.Database(path.resolve("src/databases/notely.sqlite"));
+    const db = new sqlite3.Database(
+        path.resolve("src/databases/notely.sqlite"),
+    );
 
-  db.run(notesSQL, (err) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
+    db.run(notesSQL, (err) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
 
-    console.log("ran sql:", notesSQL);
-  });
+        console.log("ran sql:", notesSQL);
+    });
 
-  db.run(accountsSQL, (err) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
+    db.run(accountsSQL, (err) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
 
-    console.log("ran sql:", accountsSQL);
-  });
+        console.log("ran sql:", accountsSQL);
+    });
 }
 
 createDatabase();
