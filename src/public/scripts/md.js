@@ -57,7 +57,7 @@ function checkStringForMarkdownIdentifiers(line) {
         parseHeading(line);
         return;
     } else if (line[0].includes("*")) {
-        checkForItalicsOrBold(line);
+        parseItalicsOrBold(line);
         return;
     } else if (line[0].includes(">")) {
         parseBlockQuote(line);
@@ -89,15 +89,46 @@ function parseHeading(line) {
         return;
     }
 
+    var check = checkForItalicsAndBold(line);
+
+    if (check != false) {
+        line = check;
+    }
+
+    console.log(line);
+
     var lineToInsert = line.replaceAll("#", "");
-    lineToInsert = lineToInsert.slice(1, lineToInsert.length);
+    if (!check) {
+        lineToInsert = lineToInsert.slice(1, lineToInsert.length);
+    }
 
     insertIntoMarkdownViewer(
         "<H" + headingSize + ">" + lineToInsert + "</H" + headingSize + ">",
     );
 }
 
-function checkForItalicsOrBold(line) {
+function checkForItalicsAndBold(line) {
+    try {
+        var numberOfAsterisks = line.match(/\*/g).length;
+    } catch {
+        return false;
+    }
+
+    if (numberOfAsterisks == 2) {
+        var lineToInsert = line.replaceAll("*", "");
+        return "<i>" + lineToInsert + "</i>";
+    } else if (numberOfAsterisks == 4) {
+        var lineToInsert = line.replaceAll("*", "");
+        return "<strong>" + lineToInsert + "</strong>";
+    } else if (numberOfAsterisks == 6) {
+        var lineToInsert = line.replaceAll("*", "");
+        return "<strong><i>" + lineToInsert + "</i></strong>";
+    } else {
+        return false;
+    }
+}
+
+function parseItalicsOrBold(line) {
     var numberOfAsterisks = line.match(/\*/g).length;
 
     if (numberOfAsterisks == 2) {
