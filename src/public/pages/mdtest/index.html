@@ -1,0 +1,28 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Notely - mdtest</title>
+
+        <style>
+            .notepad {
+                width: 100%;
+                height: 300px;
+            }
+
+            .parsebtn {
+                width: 100%;
+                height: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <textarea class="notepad" name="" id="notepad"></textarea>
+        <button class="parsebtn" onclick="prepareStringForParsing()">
+            PARSE!
+        </button>
+
+        <div id="markdownViewer"></div>
+    </body>
+    <script src="/scripts/md.js"></script>
+</html>
