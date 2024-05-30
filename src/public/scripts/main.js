@@ -41,12 +41,12 @@ function resetScreen() {
     accountSettingsMenu.style.display = "none";
 
     notesSidebarSearch.value = "";
-
     loadNotes();
 }
 
 function start() {
     resetScreen();
+    notepad.value = "";
     notepad.placeholder =
         "Welcome to Notely. To begin please login / signup and begin writing notes.";
     notepad.disabled = true;
@@ -163,6 +163,7 @@ function loadNote(UUID) {
                 notepad.value = data.body;
                 notepad.placeholder = "You are editing: " + data.name + "...";
                 notepad.disabled = false;
+                prepareStringForParsing();
                 currentlyLoadedNote = UUID;
             }
         })
@@ -201,6 +202,7 @@ function deleteNote() {
             resetScreen();
             notepad.value =
                 "Welcome to Notely. To begin please login / signup, then load a note and begin writing.";
+            markdownViewer.innerHTML = "";
             alert(data);
         })
         .catch((error) => console.error(error));
@@ -406,6 +408,8 @@ function submitLogoutRequest() {
             resetScreen();
             start();
             loggedin = false;
+            markdownViewer.innerHTML = "";
+            currentlyLoadedNote = null;
         })
         .catch((error) => console.error(error));
 }

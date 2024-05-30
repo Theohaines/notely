@@ -2,7 +2,7 @@
 //written by Theo Haines @ Theohaines.xyz
 
 var eachLine = [];
-const notepad = document.getElementById("notepad");
+//const notepad = document.getElementById("notepad");
 const markdownViewer = document.getElementById("markdownViewer");
 
 var checkingForCode = false;
@@ -15,19 +15,25 @@ var codeStore = [];
 function prepareStringForParsing() {
     markdownViewer.innerHTML = "";
     var string = notepad.value;
+    codeStore = [];
+    checkingForCode = false;
 
     // code snippet found here: https://stackoverflow.com/questions/15131072/check-whether-string-contains-a-line-break
     eachLine = string.split("\n");
 
-    console.log("Lines found: " + eachLine.length);
     for (var i = 0, l = eachLine.length; i < l; i++) {
-        console.log("Line " + (i + 1) + ": " + eachLine[i]);
-
         if (checkingForCode == true) {
             codeStore.push(eachLine[i]);
         }
 
         if (eachLine[i].includes("`")) {
+            if (eachLine[i].match(/`/g).length == 2) {
+                codeStore.push(eachLine[i]);
+                parseCode(codeStore);
+                codeStore = [];
+                continue;
+            }
+
             if (checkingForCode == false) {
                 checkingForCode = true;
                 codeStore.push(eachLine[i]);
@@ -49,6 +55,7 @@ function checkStringForMarkdownIdentifiers(line) {
     //go through all possible markdown identifiers
 
     if (!line[0]) {
+        insertIntoMarkdownViewer("<br>");
         return;
     }
 
@@ -57,7 +64,7 @@ function checkStringForMarkdownIdentifiers(line) {
         parseHeading(line);
         return;
     } else if (line[0].includes("*")) {
-        checkForItalicsOrBold(line);
+        parseItalicsOrBold(line);
         return;
     } else if (line[0].includes(">")) {
         parseBlockQuote(line);
@@ -89,27 +96,56 @@ function parseHeading(line) {
         return;
     }
 
+    var check = checkForItalicsAndBold(line);
+
+    if (check != false) {
+        line = check;
+    }
+
     var lineToInsert = line.replaceAll("#", "");
-    lineToInsert = lineToInsert.slice(1, lineToInsert.length);
+    if (!check) {
+        lineToInsert = lineToInsert.slice(1, lineToInsert.length);
+    }
 
     insertIntoMarkdownViewer(
         "<H" + headingSize + ">" + lineToInsert + "</H" + headingSize + ">",
     );
 }
 
-function checkForItalicsOrBold(line) {
+function checkForItalicsAndBold(line) {
+    try {
+        var numberOfAsterisks = line.match(/\*/g).length;
+    } catch {
+        return false;
+    }
+
+    if (numberOfAsterisks == 2) {
+        var lineToInsert = line.replaceAll("*", "");
+        return "<i>" + lineToInsert + "</i>";
+    } else if (numberOfAsterisks == 4) {
+        var lineToInsert = line.replaceAll("*", "");
+        return "<strong>" + lineToInsert + "</strong>";
+    } else if (numberOfAsterisks == 6) {
+        var lineToInsert = line.replaceAll("*", "");
+        return "<strong><i>" + lineToInsert + "</i></strong>";
+    } else {
+        return false;
+    }
+}
+
+function parseItalicsOrBold(line) {
     var numberOfAsterisks = line.match(/\*/g).length;
 
     if (numberOfAsterisks == 2) {
         var lineToInsert = line.replaceAll("*", "");
-        insertIntoMarkdownViewer("<i>" + lineToInsert + "</i>");
+        insertIntoMarkdownViewer("<i>" + lineToInsert + "</i><br>");
     } else if (numberOfAsterisks == 4) {
         var lineToInsert = line.replaceAll("*", "");
-        insertIntoMarkdownViewer("<strong>" + lineToInsert + "</strong>");
+        insertIntoMarkdownViewer("<strong>" + lineToInsert + "</strong><br>");
     } else if (numberOfAsterisks == 6) {
         var lineToInsert = line.replaceAll("*", "");
         insertIntoMarkdownViewer(
-            "<strong><i>" + lineToInsert + "</i></strong>",
+            "<strong><i>" + lineToInsert + "</i></strong><br>",
         );
     } else {
         insertIntoMarkdownViewer("<p>" + line + "</p>");
@@ -166,3 +202,5 @@ function insertIntoMarkdownViewer(elementToInsert) {
     //console.log(elementToInsert); <-- for debugging
     markdownViewer.innerHTML = markdownViewer.innerHTML + elementToInsert;
 }
+
+notepad.addEventListener("input", prepareStringForParsing);
