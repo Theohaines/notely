@@ -481,7 +481,6 @@ function autoSave() {
                 .then((response) => response.json())
                 .then((data) => {
                     notepadSaved = true;
-                    console.log(data);
                 })
                 .catch((error) => console.error(error));
         }
