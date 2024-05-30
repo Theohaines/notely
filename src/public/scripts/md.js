@@ -5,6 +5,9 @@ var eachLine = [];
 const notepad = document.getElementById("notepad");
 const markdownViewer = document.getElementById("markdownViewer");
 
+var checkingForCode = false;
+var codeStore = [];
+
 //Mark down terminology
 // # = heading (up to H6)
 
@@ -19,7 +22,26 @@ function prepareStringForParsing() {
     console.log("Lines found: " + eachLine.length);
     for (var i = 0, l = eachLine.length; i < l; i++) {
         console.log("Line " + (i + 1) + ": " + eachLine[i]);
-        checkStringForMarkdownIdentifiers(eachLine[i]);
+
+        if (checkingForCode == true) {
+            codeStore.push(eachLine[i]);
+        }
+
+        if (eachLine[i].includes("`")) {
+            if (checkingForCode == false) {
+                checkingForCode = true;
+                codeStore.push(eachLine[i]);
+            } else {
+                checkingForCode = false;
+                parseCode(codeStore);
+                codeStore = [];
+                continue;
+            }
+        }
+
+        if (!checkingForCode) {
+            checkStringForMarkdownIdentifiers(eachLine[i]);
+        }
     }
 }
 
@@ -37,6 +59,18 @@ function checkStringForMarkdownIdentifiers(line) {
     } else if (line[0].includes("*")) {
         checkForItalicsOrBold(line);
         return;
+    } else if (line[0].includes(">")) {
+        parseBlockQuote(line);
+        return;
+    } else if (line[0].includes("`")) {
+        parseCode(line);
+        return;
+    } else if (line == "---") {
+        insertIntoMarkdownViewer("<hr/>");
+        return;
+    } else if (line[0].includes("[")) {
+        parseLink(line);
+        return;
     }
 
     insertIntoMarkdownViewer("<p>" + line + "</p>");
@@ -47,10 +81,12 @@ function parseHeading(line) {
 
     if (headingSize > 6) {
         insertIntoMarkdownViewer("<p>" + line + "</p>");
+        return;
     }
 
     if (line[headingSize] != " ") {
         insertIntoMarkdownViewer("<p>" + line + "</p>");
+        return;
     }
 
     var lineToInsert = line.replaceAll("#", "");
@@ -78,6 +114,52 @@ function checkForItalicsOrBold(line) {
     } else {
         insertIntoMarkdownViewer("<p>" + line + "</p>");
     }
+}
+
+function parseBlockQuote(line) {
+    var numberOfBlockQuotes = line.match(/>/g).length;
+
+    if (numberOfBlockQuotes > 1) {
+        insertIntoMarkdownViewer("<p>" + line + "</p>");
+        return;
+    }
+
+    var lineToInsert = line.replaceAll(">", "");
+    lineToInsert = lineToInsert.slice(1, lineToInsert.length);
+
+    insertIntoMarkdownViewer("<blockquote>" + lineToInsert + "</blockquote>");
+}
+
+function parseCode(lines) {
+    var lineToInsert = "";
+
+    for (var line in lines) {
+        lineToInsert = lineToInsert + lines[line].replaceAll("`", "") + "\n";
+    }
+
+    insertIntoMarkdownViewer(
+        "<pre class='code'><code>" + lineToInsert + "</code></pre>",
+    );
+}
+
+function parseLink(line) {
+    var linkTitle = line.split("]");
+    try {
+        linkTitle = linkTitle[0].replaceAll("[", "");
+    } catch {
+        insertIntoMarkdownViewer("<p>" + line + "</p>");
+        return;
+    }
+
+    var link = line.split("(");
+    try {
+        link = link[1].replaceAll(")", "");
+    } catch {
+        insertIntoMarkdownViewer("<p>" + line + "</p>");
+        return;
+    }
+
+    insertIntoMarkdownViewer("<a href='" + link + "'>" + linkTitle + "</a>");
 }
 
 function insertIntoMarkdownViewer(elementToInsert) {

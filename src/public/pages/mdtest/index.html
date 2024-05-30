@@ -14,10 +14,47 @@
                 width: 100%;
                 height: 30px;
             }
+
+            blockquote {
+                padding: 0 1em;
+                color: #636c76;
+                border-left: 0.25em solid #d0d7de;
+            }
+
+            .code {
+                padding: 2px;
+                width: min-content;
+                padding: 2px;
+                font-size: 85%;
+                background-color: #afb8c1;
+                border-radius: 6px;
+                box-sizing: border-box;
+            }
         </style>
     </head>
     <body>
-        <textarea class="notepad" name="" id="notepad"></textarea>
+        <textarea class="notepad" name="" id="notepad">
+# welcome to Notely
+## Getting started
+
+**we have bold**
+*we have itallics*
+***we have both***
+
+> OMG
+
+# this is so epic
+
+> hayyyy
+
+`function insertIntoMarkdownViewer(elementToInsert) {
+    //console.log(elementToInsert); <-- for debugging
+    markdownViewer.innerHTML = markdownViewer.innerHTML + elementToInsert;
+}`
+
+[theo](https://theohaines.xyz)
+</textarea
+        >
         <button class="parsebtn" onclick="prepareStringForParsing()">
             PARSE!
         </button>
