@@ -15,6 +15,7 @@ const accountSettingsMenu = document.getElementById("accountSettingsMenu");
 //Search
 const notesSidebarSearch = document.getElementById("notesSidebarSearch");
 
+var notepadSaved = true;
 var currentlyLoadedNote = "";
 var loggedin = false;
 
@@ -97,6 +98,7 @@ function saveNote() {
     })
         .then((response) => response.json())
         .then((data) => {
+            notepadSaved = true;
             alert(data.message);
         })
         .catch((error) => console.error(error));
@@ -463,6 +465,30 @@ function searchNotes() {
     }
 }
 
+// autoSave
+
+function autoSave() {
+    setInterval(() => {
+        if (loggedin == true && currentlyLoadedNote) {
+            fetch("/savenote", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    UUID: currentlyLoadedNote,
+                    body: notepad.value,
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    notepadSaved = true;
+                    console.log(data);
+                })
+                .catch((error) => console.error(error));
+        }
+    }, 10000);
+}
+
 notesSidebarSearch.addEventListener("input", searchNotes);
 
+autoSave();
 start();
