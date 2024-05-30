@@ -54,8 +54,6 @@ app.use("/landing", express.static(path.resolve("src/public/pages/landing")));
 app.use("/about", express.static(path.resolve("src/public/pages/about")));
 app.use("/tos", express.static(path.resolve("src/public/pages/tos")));
 
-app.use("/md", express.static(path.resolve("src/public/pages/mdtest")));
-
 app.get("/", (req, res) => {
     res.sendFile(path.resolve("src/public/pages/landing/index.html"));
 });
