@@ -3,7 +3,8 @@
     "start": "nodemon src/notely.js --ext js,html,css,env",
     "lsusers": "node src/admin/listallusers.js",
     "lsnotes": "node src/admin/listallnotes.js",
-    "deleteuser": "node src/admin/deleteuser.js"
+    "deleteuser": "node src/admin/deleteuser.js",
+    "prepare": "husky"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -11,5 +12,13 @@
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.5",
+    "prettier": "3.2.5"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }

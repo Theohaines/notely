@@ -1,90 +1,90 @@
 :root {
-    --accentblue : #007acc;
-    --lightgrey : #3e3e42;
-    --darkergrey : #2d2d30;
-    --darkestgrey : #252526;
+  --accentblue: #007acc;
+  --lightgrey: #3e3e42;
+  --darkergrey: #2d2d30;
+  --darkestgrey: #252526;
 
-    --opacityfilter : #373839df;
+  --opacityfilter: #373839df;
 }
 
 .nav-bar {
-    transition: 1s;
-    color: white;
-    background-color: var(--darkestgrey);
-    border-bottom: 1px var(--lightgrey) solid;
-    height: 40px;
+  transition: 1s;
+  color: white;
+  background-color: var(--darkestgrey);
+  border-bottom: 1px var(--lightgrey) solid;
+  height: 40px;
 
-    display: flex;
-    flex-direction: row;
-    column-gap: 10px;
-    align-items: baseline;
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  align-items: baseline;
 }
 
-.nav-bar a{
-    text-decoration: none;
+.nav-bar a {
+  text-decoration: none;
 }
 
 .nav-bar a:hover {
-    transition: 1s;
-    color: var(--accentblue);
+  transition: 1s;
+  color: var(--accentblue);
 }
 
 .about-main-container {
-    width: 40%;
-    margin: auto;
-    margin-top: 20px;
+  width: 40%;
+  margin: auto;
+  margin-top: 20px;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    row-gap: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 10px;
 }
 
 .cta-block {
-    text-align: center;
+  text-align: center;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-    background-color: var(--darkestgrey);
-    border: var(--lightgrey) 2px solid;
-    padding: 10px;
+  background-color: var(--darkestgrey);
+  border: var(--lightgrey) 2px solid;
+  padding: 10px;
 }
 
 .button-large {
-    transition: 1s;
-    width: 60%;
-    height: 30px;
+  transition: 1s;
+  width: 60%;
+  height: 30px;
 
-    font-size: large;
-    outline: none;
+  font-size: large;
+  outline: none;
 
-    background-color: var(--darkestgrey);
-    border: var(--lightgrey) 2px solid;
+  background-color: var(--darkestgrey);
+  border: var(--lightgrey) 2px solid;
 }
 
 .button-large:hover {
-    transition: 1s;
-    background-color: var(--darkergrey);
-    border: var(--accentblue) 2px solid;
-    cursor: pointer;
+  transition: 1s;
+  background-color: var(--darkergrey);
+  border: var(--accentblue) 2px solid;
+  cursor: pointer;
 }
 
 .bordered-block {
-    text-align: center;
+  text-align: center;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-    background-color: var(--darkestgrey);
-    border: var(--lightgrey) 2px solid;
-    padding: 10px;
+  background-color: var(--darkestgrey);
+  border: var(--lightgrey) 2px solid;
+  padding: 10px;
 }
 
-.contact img:hover  {
-    cursor: alias;
+.contact img:hover {
+  cursor: alias;
 }
