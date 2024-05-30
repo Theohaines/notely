@@ -15,6 +15,7 @@ const accountSettingsMenu = document.getElementById("accountSettingsMenu");
 //Search
 const notesSidebarSearch = document.getElementById("notesSidebarSearch");
 
+var notepadSaved = true;
 var currentlyLoadedNote = "";
 var loggedin = false;
 
@@ -41,12 +42,12 @@ function resetScreen() {
     accountSettingsMenu.style.display = "none";
 
     notesSidebarSearch.value = "";
-
     loadNotes();
 }
 
 function start() {
     resetScreen();
+    notepad.value = "";
     notepad.placeholder =
         "Welcome to Notely. To begin please login / signup and begin writing notes.";
     notepad.disabled = true;
@@ -97,6 +98,7 @@ function saveNote() {
     })
         .then((response) => response.json())
         .then((data) => {
+            notepadSaved = true;
             alert(data.message);
         })
         .catch((error) => console.error(error));
@@ -163,6 +165,7 @@ function loadNote(UUID) {
                 notepad.value = data.body;
                 notepad.placeholder = "You are editing: " + data.name + "...";
                 notepad.disabled = false;
+                prepareStringForParsing();
                 currentlyLoadedNote = UUID;
             }
         })
@@ -201,6 +204,7 @@ function deleteNote() {
             resetScreen();
             notepad.value =
                 "Welcome to Notely. To begin please login / signup, then load a note and begin writing.";
+            markdownViewer.innerHTML = "";
             alert(data);
         })
         .catch((error) => console.error(error));
@@ -406,6 +410,8 @@ function submitLogoutRequest() {
             resetScreen();
             start();
             loggedin = false;
+            markdownViewer.innerHTML = "";
+            currentlyLoadedNote = null;
         })
         .catch((error) => console.error(error));
 }
@@ -459,6 +465,29 @@ function searchNotes() {
     }
 }
 
+// autoSave
+
+function autoSave() {
+    setInterval(() => {
+        if (loggedin == true && currentlyLoadedNote) {
+            fetch("/savenote", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    UUID: currentlyLoadedNote,
+                    body: notepad.value,
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    notepadSaved = true;
+                })
+                .catch((error) => console.error(error));
+        }
+    }, 10000);
+}
+
 notesSidebarSearch.addEventListener("input", searchNotes);
 
+autoSave();
 start();
