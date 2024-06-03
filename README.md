@@ -4,4 +4,4 @@
 
 ## A lightweight notetaking app built in HTML, CSS and JS
 
-### I would not reccomend trying to local host this atm lol
+### I would not try to local host this atm lol. Support for that is coming soon.
